@@ -1,47 +1,89 @@
-{% extends "../components/base.html" %}
-
-{% block title %}Menu Dịch Vụ Giặt Ủi{% endblock %}
-
-{% block content %}
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Menu Dịch Vụ Giặt Ủi</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Giặt ủi thông thường</h5>
-                    <p class="card-text">Dịch vụ giặt ủi cơ bản cho quần áo hàng ngày.</p>
-                    <p class="card-text"><strong>Giá:</strong> 30.000 VNĐ/kg</p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dịch Vụ Giặt Ủi Giá Rẻ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .service-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center text-primary">Dịch Vụ Giặt Ủi Giá Rẻ</h1>
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Combo 100K">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Combo 100K</h5>
+                        <p class="card-text">Giặt sấy 5kg quần áo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Combo 200K">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Combo 200K</h5>
+                        <p class="card-text">Giặt sấy 10kg, ủi miễn phí.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Combo 300K">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Combo 300K</h5>
+                        <p class="card-text">Giặt sấy 15kg, ủi miễn phí, nước xả thơm.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Combo 500K">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Combo 500K</h5>
+                        <p class="card-text">Giặt sấy 25kg, ủi cao cấp, giao tận nơi.</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Giặt khô cao cấp</h5>
-                    <p class="card-text">Giặt khô chuyên nghiệp, bảo vệ chất liệu quần áo.</p>
-                    <p class="card-text"><strong>Giá:</strong> 50.000 VNĐ/kg</p>
+        <h2 class="text-center text-success mt-5">Các Dịch Vụ Khác</h2>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Giặt quần áo">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Giặt Quần Áo</h5>
+                        <p class="card-text">Giặt sạch, khử mùi, bảo vệ vải.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Ủi hơi nước</h5>
-                    <p class="card-text">Ủi hơi nước giúp quần áo luôn phẳng đẹp.</p>
-                    <p class="card-text"><strong>Giá:</strong> 20.000 VNĐ/bộ</p>
+            <div class="col-md-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Sấy khô quần áo">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Sấy Khô Quần Áo</h5>
+                        <p class="card-text">Sấy khô nhanh chóng, bảo vệ vải.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Combo giặt ủi tiết kiệm</h5>
-                    <p class="card-text">Giặt và ủi trọn gói cho cả tuần.</p>
-                    <p class="card-text"><strong>Giá:</strong> 150.000 VNĐ/5kg</p>
+            <div class="col-md-4">
+                <div class="card service-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Ủi quần áo">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Ủi Quần Áo</h5>
+                        <p class="card-text">Ủi hơi nước, phẳng đẹp, không hư vải.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
