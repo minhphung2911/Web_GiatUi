@@ -1,4 +1,7 @@
 package com.example.webgiatui.entity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 public class OtherController {
     @Id

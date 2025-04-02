@@ -1,5 +1,9 @@
 package com.example.webgiatui.service;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import javax.persistence.*;
+import java.util.List;
+import org.springframework.stereotype.Service;
 public class OtherController {
     @Autowired
 private OrderRepository repository;
