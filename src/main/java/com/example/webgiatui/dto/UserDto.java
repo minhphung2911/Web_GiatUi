@@ -9,14 +9,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserDto
-{
+public class UserDto extends BaseDto {
+    @NotEmpty(message = "Id should not be empty")
     private Long id;
-    @NotEmpty
+    @NotEmpty(message = "First name should not be empty")
     private String firstName;
-    @NotEmpty
+    @NotEmpty(message = "Last name should not be empty")
     private String lastName;
     @NotEmpty(message = "Email should not be empty")
     @Email

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Permission {
+public class Permission  {
     @Id
     @Column(name = "Id", nullable = false)
     private Long id;
