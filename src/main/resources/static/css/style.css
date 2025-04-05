@@ -1,0 +1,67 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+}
+
+.navbar {
+    background-color: #0077b6;
+}
+
+.navbar-brand,
+.nav-link {
+    color: white !important;
+}
+
+.hero {
+    background: url('https://source.unsplash.com/1600x600/?laundry,washing') no-repeat center center/cover;
+    height: 60vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 {
+    background: rgba(0, 119, 182, 0.7);
+    padding: 20px 30px;
+    border-radius: 15px;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.btn-primary {
+    background-color: #0077b6;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #005f87;
+}
+
+footer {
+    background: #0077b6;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.badge {
+    font-size: 0.9rem;
+}
+
+.alert {
+    margin-top: 20px;
+}
