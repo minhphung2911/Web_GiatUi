@@ -18,9 +18,11 @@ public abstract class BaseEntity<ID extends Serializable> {
     private ID id;
 
     public BaseEntity() {
+        super();
     }
 
     public BaseEntity(ID id) {
+        super();
         this.id = id;
     }
 }

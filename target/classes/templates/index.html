@@ -1,38 +1,59 @@
 <!DOCTYPE html>
-<html lang="en"
-  xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Registration and Login System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
+    <meta charset="UTF-8" />
+    <title>Tiệm Giặt Ủi Sạch & Nhanh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/style.css" />
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Registration and Login System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Tiệm Giặt Ủi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/register}">Đăng ký</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/login}">Đăng nhập</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Chào mừng đến với Tiệm Giặt Ủi Sạch & Nhanh</h1>
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Dịch vụ của chúng tôi</h2>
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="feature-icon mb-3">🧺</div>
+                <h4>Giặt sấy lấy liền</h4>
+                <p>Nhanh chóng, tiện lợi, sạch sẽ cho mọi loại quần áo.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-icon mb-3">🚚</div>
+                <h4>Giao nhận tận nơi</h4>
+                <p>Phục vụ tận nhà, tiết kiệm thời gian cho bạn.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-icon mb-3">💰</div>
+                <h4>Giá cả hợp lý</h4>
+                <p>Chất lượng cao với mức giá phải chăng, phù hợp mọi đối tượng.</p>
+            </div>
         </div>
     </div>
-</nav>
-<div class="container">
-    <div class="row">
-        <h1 class="text-center"> Welcome to Registration and Login System </h1>
-    </div>
-</div>
+
+    <footer>
+        <p>&copy; 2025 Tiệm Giặt Ủi Sạch & Nhanh. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

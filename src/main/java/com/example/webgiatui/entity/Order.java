@@ -1,65 +1,44 @@
 package com.example.webgiatui.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Table(name = "Order")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String serviceType;
-    private Double price;
-    private String status;
+import java.time.LocalDate;
+
+@Entity
+@Getter
+@Setter
+public class Order extends BaseEntity<Long> {
+    @Column(unique = true)
+    private String orderCode;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private User customer;
 
-    public Order() {
-        super();
-    }
+    @ManyToOne
+    private Service service;
 
-    public Order(String serviceType, Double price, String status, User user) {
-        super();
-        this.serviceType = serviceType;
-        this.price = price;
-        this.status = status;
-        this.user = user;
-    }
+    private Double weight;
+    private LocalDate receivedDate;
+    private LocalDate returnDate;
 
-    public Long getId() {
-        return id;
-    }
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-    public String getServiceType() {
-        return serviceType;
-    }
+    private String note;
 
-    public Double getPrice() {
-        return price;
-    }
+    @Getter
+    public enum OrderStatus {
+        PENDING("CHỜ XỬ LÝ"),
+        WASHING("ĐANG GIẶT"),
+        COMPLETED("HOÀN TẤT");
 
-    public String getStatus() {
-        return status;
-    }
+        private final String name;
 
-    public User getUser() {
-        return user;
-    }
+        OrderStatus(String name) {
+            this.name = name;
+        }
 
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
