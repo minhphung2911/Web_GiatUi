@@ -1,79 +1,337 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Registration and Login System</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - Dịch Vụ Giặt Ủi Fresh Laundry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:fragment="header">
-    <div class="container-fluid">
-      <a class="navbar-brand" th:href="@{/}">Registration and Login System</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Fresh<span>Laundry</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="index.html#services">Dịch Vụ</a></li>
+                    <li><a href="index.html#pricing">Bảng Giá</a></li>
+                    <li><a href="index.html#contact">Liên Hệ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="booking.html" class="btn btn-book"><i class="fas fa-calendar-alt"></i> Đặt Lịch</a>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Register Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container fade-in">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h2>Tạo Tài Khoản</h2>
+                        <p>Tham gia dịch vụ giặt ủi của chúng tôi và tận hưởng các lợi ích</p>
+                    </div>
+                    <div class="auth-body">
+                        <div class="alert-box error-alert" id="register-error">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span id="error-message">Thông báo lỗi ở đây.</span>
+                        </div>
+                        <form id="register-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">Tên</label>
+                                    <div class="input-icon">
+                                        <i class="fas fa-user"></i>
+                                        <input type="text" id="first-name" name="firstName" placeholder="Văn" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Họ</label>
+                                    <div class="input-icon">
+                                        <i class="fas fa-user"></i>
+                                        <input type="text" id="last-name" name="lastName" placeholder="Nguyễn" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="email" name="email" placeholder="ten@example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Số Điện Thoại</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" id="phone" name="phone" placeholder="0912 345 678" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mật Khẩu</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="password" name="password" placeholder="Tạo mật khẩu"
+                                        required>
+                                    <i class="fas fa-eye toggle-password"></i>
+                                </div>
+                                <div class="password-strength" id="password-strength">
+                                    <div class="strength-bar">
+                                        <div class="strength-bar-fill" id="strength-bar-fill"></div>
+                                    </div>
+                                    <div class="strength-text" id="strength-text">Độ mạnh mật khẩu: <span>Yếu</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Xác Nhận Mật Khẩu</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="confirm-password" name="confirmPassword"
+                                        placeholder="Xác nhận mật khẩu của bạn" required>
+                                </div>
+                            </div>
+                            <div class="terms-agreement">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="terms" name="terms" required>
+                                    <span class="checkmark"></span>
+                                    Tôi đồng ý với <a href="#">Điều Khoản Dịch Vụ</a> và <a href="#">Chính Sách Bảo
+                                        Mật</a>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" id="register-button">
+                                <span>Tạo Tài Khoản</span>
+                                <i class="fas fa-spinner fa-spin" id="register-spinner"></i>
+                            </button>
+                        </form>
+                        <div class="auth-separator">
+                            <span>HOẶC</span>
+                        </div>
+                        <div class="social-login">
+                            <button class="btn btn-google">
+                                <i class="fab fa-google"></i> Tiếp tục với Google
+                            </button>
+                            <button class="btn btn-facebook">
+                                <i class="fab fa-facebook-f"></i> Tiếp tục với Facebook
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-footer">
+                        <p>Đã có tài khoản? <a href="login.html">Đăng Nhập</a></p>
+                    </div>
+                </div>
+                <div class="auth-image slide-in-right">
+                    <img src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                        alt="Dịch Vụ Giặt Ủi">
+                    <div class="auth-image-overlay">
+                        <h3>Tham Gia Fresh Laundry Ngay Hôm Nay</h3>
+                        <p>Tạo tài khoản để quản lý đơn hàng, theo dõi quá trình giặt ủi và tận hưởng các ưu đãi độc
+                            quyền.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content compact">
+                <div class="footer-section">
+                    <h3>Fresh Laundry</h3>
+                    <p>Dịch vụ giặt ủi chuyên nghiệp cho mọi nhu cầu của bạn.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Kết Nhanh</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Trang Chủ</a></li>
+                        <li><a href="index.html#services">Dịch Vụ</a></li>
+                        <li><a href="index.html#pricing">Bảng Giá</a></li>
+                        <li><a href="index.html#contact">Liên Hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Hệ</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Đường Giặt Ủi, Thành Phố Sạch</p>
+                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> info@freshlaundry.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Fresh Laundry. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="spinner">
+        <div class="spinner"></div>
     </div>
-  </nav>
-  <br />
-  <br />
-  <br />
-  <div class="container">
-    <div class="row col-md-8 offset-md-2">
-      <div class="card">
-        <div th:if="${param.success}">
-          <div class="alert alert-info">You've successfully registered
-            to our app!</div>
-        </div>
-        <div class="card-header">
-          <h2 class="text-center">Registration</h2>
-        </div>
-        <div class="card-body">
-          <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
 
-            <div class="form-group mb-3">
-              <label class="form-label">First Name</label>
-              <input class="form-control" id="firstName" name="firstName" placeholder="Enter first name"
-                th:field="*{firstName}" type="text" />
-              <p th:errors="*{firstName}" class="text-danger" th:if="${#fields.hasErrors('firstName')}">
-              </p>
-            </div>
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle register form submission
+            const registerForm = document.getElementById('register-form');
+            const registerButton = document.getElementById('register-button');
+            const registerSpinner = document.getElementById('register-spinner');
+            const registerError = document.getElementById('register-error');
+            const errorMessage = document.getElementById('error-message');
 
-            <div class="form-group mb-3">
-              <label class="form-label">Last Name</label>
-              <input class="form-control" id="lastName" name="lastName" placeholder="Enter last name"
-                th:field="*{lastName}" type="text" />
-              <p th:errors="*{lastName}" class="text-danger" th:if="${#fields.hasErrors('lastName')}">
-              </p>
-            </div>
-            <div class="form-group mb-3">
-              <label class="form-label">Email</label>
-              <input class="form-control" id="email" name="email" placeholder="Enter email address" th:field="*{email}"
-                type="email" />
-              <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}">
-              </p>
-            </div>
-            <div class="form-group mb-3">
-              <label class="form-label">Password</label>
-              <input class="form-control" id="password" name="password" placeholder="Enter password"
-                th:field="*{password}" type="password" />
-              <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}">
-              </p>
-            </div>
+            if (registerForm) {
+                registerForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
 
-            <div class="form-group mb-3">
-              <button class="btn btn-primary" type="submit">Register</button>
-              <span>Already registered? <a href="/" th:href="@{/login}">Login
-                  here</a></span>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+                    // Hide error message
+                    registerError.style.display = 'none';
+
+                    // Show spinner
+                    registerButton.disabled = true;
+                    registerButton.querySelector('span').style.opacity = '0';
+                    registerSpinner.style.display = 'inline-block';
+
+                    // Get form data
+                    const firstName = document.getElementById('first-name').value;
+                    const lastName = document.getElementById('last-name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    const terms = document.getElementById('terms').checked;
+
+                    // Validate form data
+                    if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+                        showRegisterError('Vui lòng điền đầy đủ thông tin');
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                        showRegisterError('Mật khẩu không khớp');
+                        return;
+                    }
+
+                    if (password.length < 8) {
+                        showRegisterError('Mật khẩu phải có ít nhất 8 ký tự');
+                        return;
+                    }
+
+                    if (!terms) {
+                        showRegisterError('Bạn phải đồng ý với Điều Khoản Dịch Vụ và Chính Sách Bảo Mật');
+                        return;
+                    }
+
+                    // Simulate API call
+                    setTimeout(function () {
+                        // Perform registration
+                        const success = registerUser({
+                            firstName,
+                            lastName,
+                            email,
+                            phone,
+                            password
+                        });
+
+                        if (success) {
+                            // Show success message
+                            showNotification('Đăng Ký Thành Công', 'Tài khoản của bạn đã được tạo thành công. Đang chuyển hướng đến bảng điều khiển...', () => {
+                                window.location.href = 'dashboard.html';
+                            });
+                        } else {
+                            // Show error message
+                            showRegisterError('Tài khoản với email này đã tồn tại. Vui lòng thử email khác hoặc đăng nhập.');
+                        }
+
+                        // Hide spinner
+                        registerButton.disabled = false;
+                        registerButton.querySelector('span').style.opacity = '1';
+                        registerSpinner.style.display = 'none';
+                    }, 2000);
+                });
+            }
+
+            // Password strength meter
+            const passwordInput = document.getElementById('password');
+            const strengthBarFill = document.getElementById('strength-bar-fill');
+            const strengthText = document.getElementById('strength-text').querySelector('span');
+
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function () {
+                    const password = this.value;
+                    let strength = 0;
+
+                    if (password.length >= 8) strength += 25;
+                    if (password.match(/[A-Z]/)) strength += 25;
+                    if (password.match(/[0-9]/)) strength += 25;
+                    if (password.match(/[^A-Za-z0-9]/)) strength += 25;
+
+                    strengthBarFill.style.width = strength + '%';
+
+                    if (strength <= 25) {
+                        strengthBarFill.style.backgroundColor = '#ff4d4d';
+                        strengthText.textContent = 'Yếu';
+                        strengthText.style.color = '#ff4d4d';
+                    } else if (strength <= 50) {
+                        strengthBarFill.style.backgroundColor = '#ffaa00';
+                        strengthText.textContent = 'Trung bình';
+                        strengthText.style.color = '#ffaa00';
+                    } else if (strength <= 75) {
+                        strengthBarFill.style.backgroundColor = '#ffee00';
+                        strengthText.textContent = 'Tốt';
+                        strengthText.style.color = '#ffee00';
+                    } else {
+                        strengthBarFill.style.backgroundColor = '#4CAF50';
+                        strengthText.textContent = 'Mạnh';
+                        strengthText.style.color = '#4CAF50';
+                    }
+                });
+            }
+
+            // Toggle password visibility
+            const togglePassword = document.querySelector('.toggle-password');
+            if (togglePassword) {
+                togglePassword.addEventListener('click', function () {
+                    const password = document.getElementById('password');
+                    if (password.type === 'password') {
+                        password.type = 'text';
+                        togglePassword.classList.remove('fa-eye');
+                        togglePassword.classList.add('fa-eye-slash');
+                    } else {
+                        password.type = 'password';
+                        togglePassword.classList.remove('fa-eye-slash');
+                        togglePassword.classList.add('fa-eye');
+                    }
+                });
+            }
+
+            function showRegisterError(message) {
+                errorMessage.textContent = message;
+                registerError.style.display = 'flex';
+                registerButton.disabled = false;
+                registerButton.querySelector('span').style.opacity = '1';
+                registerSpinner.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>

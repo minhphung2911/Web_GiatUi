@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Điều Khiển - Dịch Vụ Giặt Ủi Fresh Laundry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Fresh<span>Laundry</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="index.html#services">Dịch Vụ</a></li>
+                    <li><a href="index.html#pricing">Bảng Giá</a></li>
+                    <li><a href="index.html#contact">Liên Hệ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div id="user-profile" class="user-profile">
+                        <div class="user-profile-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Bảng Điều
+                                Khiển</a>
+                            <a href="profile.html"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                        </div>
+                    </div>
+                    <a href="booking.html" class="btn btn-book"><i class="fas fa-calendar-alt"></i> Đặt Lịch</a>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header fade-in">
+                <div class="dashboard-title">
+                    <h2>Bảng Điều Khiển Của Tôi</h2>
+                    <p>Chào mừng trở lại, <span id="user-name">Văn</span></p>
+                </div>
+                <div class="dashboard-actions">
+                    <a href="booking.html" class="btn btn-primary"><i class="fas fa-plus"></i> Đặt Lịch Mới</a>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats fade-in">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Sắp Tới</h3>
+                        <p id="upcoming-count">2</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Đơn Hàng Trước</h3>
+                        <p id="past-count">5</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Tổng Chi Tiêu</h3>
+                        <p id="total-spent">275.500đ</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Điểm Tích Lũy</h3>
+                        <p id="loyalty-points">320</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content fade-in">
+                <div class="dashboard-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" data-tab="appointments">Lịch Hẹn Của Tôi</button>
+                        <button class="tab-button" data-tab="orders">Lịch Sử Đơn Hàng</button>
+                        <button class="tab-button" data-tab="preferences">Tùy Chọn</button>
+                    </div>
+
+                    <!-- Search Box -->
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="dashboard-search" placeholder="Tìm kiếm lịch hẹn...">
+                    </div>
+
+                    <!-- Appointments Tab -->
+                    <div class="tab-content active" id="appointments">
+                        <div class="no-data-message hidden" id="no-appointments">
+                            <div class="no-data-icon">
+                                <i class="fas fa-calendar-times"></i>
+                            </div>
+                            <h3>Không Có Lịch Hẹn Sắp Tới</h3>
+                            <p>Bạn chưa có lịch hẹn nào được đặt.</p>
+                            <a href="booking.html" class="btn btn-primary">Đặt Lịch Ngay</a>
+                        </div>
+
+                        <div class="appointment-list" id="appointment-list">
+                            <!-- Appointment Item -->
+                            <div class="appointment-item" data-id="1">
+                                <div class="appointment-status upcoming">
+                                    <span>Sắp Tới</span>
+                                </div>
+                                <div class="appointment-details">
+                                    <div class="appointment-service">
+                                        <h4>Giặt & Gấp</h4>
+                                        <span class="appointment-id">#ORD12345</span>
+                                    </div>
+                                    <div class="appointment-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>15 Tháng 7, 2023</span>
+                                    </div>
+                                    <div class="appointment-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>10:00 AM</span>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        <strong>Các món đồ:</strong> 8 áo sơ mi, 2 quần, 5 khăn tắm
+                                        <br>
+                                        <strong>Ghi chú:</strong> Vui lòng sử dụng bột giặt không mùi
+                                    </div>
+                                </div>
+                                <div class="appointment-actions">
+                                    <div class="appointment-price">45.000đ</div>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm" data-action="edit"><i
+                                                class="fas fa-edit"></i> Sửa</button>
+                                        <button class="btn btn-danger btn-sm" data-action="cancel"><i
+                                                class="fas fa-times"></i> Hủy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Appointment Item -->
+                            <div class="appointment-item" data-id="2">
+                                <div class="appointment-status upcoming">
+                                    <span>Sắp Tới</span>
+                                </div>
+                                <div class="appointment-details">
+                                    <div class="appointment-service">
+                                        <h4>Giặt Khô</h4>
+                                        <span class="appointment-id">#ORD12346</span>
+                                    </div>
+                                    <div class="appointment-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>20 Tháng 7, 2023</span>
+                                    </div>
+                                    <div class="appointment-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>02:00 PM</span>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        <strong>Các món đồ:</strong> 1 bộ vest, 3 váy, 2 áo khoác
+                                    </div>
+                                </div>
+                                <div class="appointment-actions">
+                                    <div class="appointment-price">75.500đ</div>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm" data-action="edit"><i
+                                                class="fas fa-edit"></i> Sửa</button>
+                                        <button class="btn btn-danger btn-sm" data-action="cancel"><i
+                                                class="fas fa-times"></i> Hủy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orders Tab -->
+                    <div class="tab-content" id="orders">
+                        <div class="no-data-message hidden" id="no-orders">
+                            <div class="no-data-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <h3>Không Có Lịch Sử Đơn Hàng</h3>
+                            <p>Bạn chưa hoàn thành đơn hàng nào.</p>
+                        </div>
+
+                        <div class="order-list" id="order-list">
+                            <!-- Order Item -->
+                            <div class="order-item">
+                                <div class="order-header">
+                                    <div class="order-id">
+                                        <h4>Đơn Hàng #ORD12340</h4>
+                                        <span class="order-date">1 Tháng 7, 2023</span>
+                                    </div>
+                                    <div class="order-status completed">
+                                        <span>Đã Hoàn Thành</span>
+                                    </div>
+                                </div>
+                                <div class="order-body">
+                                    <div class="order-service">
+                                        <span class="service-name">Dịch Vụ Ủi</span>
+                                        <span class="service-items">12 áo sơ mi, 3 quần</span>
+                                    </div>
+                                    <div class="order-notes">
+                                        <span>Hồ vải thêm cho áo sơ mi</span>
+                                    </div>
+                                    <div class="order-price">
+                                        <span>35.000đ</span>
+                                    </div>
+                                </div>
+                                <div class="order-footer">
+                                    <button class="btn btn-text" data-action="details"><i class="fas fa-eye"></i> Xem
+                                        Chi Tiết</button>
+                                    <button class="btn btn-text" data-action="receipt"><i
+                                            class="fas fa-file-invoice"></i> Hóa Đơn</button>
+                                    <button class="btn btn-text" data-action="reorder"><i class="fas fa-redo"></i>
+                                        Đặt Lại</button>
+                                </div>
+                            </div>
+
+                            <!-- Order Item -->
+                            <div class="order-item">
+                                <div class="order-header">
+                                    <div class="order-id">
+                                        <h4>Đơn Hàng #ORD12338</h4>
+                                        <span class="order-date">20 Tháng 6, 2023</span>
+                                    </div>
+                                    <div class="order-status completed">
+                                        <span>Đã Hoàn Thành</span>
+                                    </div>
+                                </div>
+                                <div class="order-body">
+                                    <div class="order-service">
+                                        <span class="service-name">Gói Cao Cấp</span>
+                                        <span class="service-items">Bộ đồ giường mùa đông, 4 chăn, 8 gối</span>
+                                    </div>
+                                    <div class="order-notes">
+                                        <span>Ưu tiên giặt không gây dị ứng</span>
+                                    </div>
+                                    <div class="order-price">
+                                        <span>120.000đ</span>
+                                    </div>
+                                </div>
+                                <div class="order-footer">
+                                    <button class="btn btn-text" data-action="details"><i class="fas fa-eye"></i> Xem
+                                        Chi Tiết</button>
+                                    <button class="btn btn-text" data-action="receipt"><i
+                                            class="fas fa-file-invoice"></i> Hóa Đơn</button>
+                                    <button class="btn btn-text" data-action="reorder"><i class="fas fa-redo"></i>
+                                        Đặt Lại</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Tab -->
+                    <div class="tab-content" id="preferences">
+                        <div class="preferences-form">
+                            <div class="preferences-section">
+                                <h3>Tùy Chọn Giặt</h3>
+                                <div class="preference-options">
+                                    <div class="preference-item">
+                                        <label>Loại Bột Giặt</label>
+                                        <select id="detergent-preference">
+                                            <option value="regular">Thông Thường</option>
+                                            <option value="hypoallergenic" selected>Không Gây Dị Ứng</option>
+                                            <option value="fragrance-free">Không Mùi</option>
+                                            <option value="eco-friendly">Thân Thiện Môi Trường</option>
+                                        </select>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label>Nước Xả Vải</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="fabric-softener" checked>
+                                            <label for="fabric-softener"></label>
+                                        </div>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label>Mức Độ Hồ Vải</label>
+                                        <select id="starch-level">
+                                            <option value="none">Không</option>
+                                            <option value="light" selected>Nhẹ</option>
+                                            <option value="medium">Vừa</option>
+                                            <option value="heavy">Đậm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="preferences-section">
+                                <h3>Tùy Chọn Giao Hàng</h3>
+                                <div class="preference-options">
+                                    <div class="preference-item">
+                                        <label>Thời Gian Giao Hàng Ưa Thích</label>
+                                        <select id="delivery-time">
+                                            <option value="morning">Buổi Sáng (9h - 12h)</option>
+                                            <option value="afternoon" selected>Buổi Chiều (12h - 17h)</option>
+                                            <option value="evening">Buổi Tối (17h - 20h)</option>
+                                        </select>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label>Hướng Dẫn Giao Hàng Đặc Biệt</label>
+                                        <textarea id="delivery-instructions"
+                                            placeholder="Ví dụ: Để ở cửa, gọi trước khi giao hàng, v.v.">Vui lòng gọi trước 10 phút khi đến.</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="preferences-section">
+                                <h3>Tùy Chọn Thông Báo</h3>
+                                <div class="preference-options">
+                                    <div class="preference-item">
+                                        <label>Thông Báo Qua Email</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="email-notifications" checked>
+                                            <label for="email-notifications"></label>
+                                        </div>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label>Thông Báo Qua SMS</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="sms-notifications" checked>
+                                            <label for="sms-notifications"></label>
+                                        </div>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label>Email Khuyến Mãi</label>
+                                        <div class="toggle-switch">
+                                            <input type="checkbox" id="promo-emails">
+                                            <label for="promo-emails"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="preferences-actions">
+                                <button class="btn btn-primary" id="save-preferences"><i class="fas fa-save"></i> Lưu
+                                    Tùy Chọn</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h3>Hủy Lịch Hẹn</h3>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn hủy lịch hẹn này không? Hành động này không thể hoàn tác.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-cancel-btn">Không, Giữ Lại</button>
+                <button class="btn btn-danger" id="modal-confirm-btn">Có, Hủy Nó</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content compact">
+                <div class="footer-section">
+                    <h3>Fresh Laundry</h3>
+                    <p>Dịch vụ giặt ủi chuyên nghiệp cho mọi nhu cầu của bạn.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Kết Nhanh</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Trang Chủ</a></li>
+                        <li><a href="index.html#services">Dịch Vụ</a></li>
+                        <li><a href="index.html#pricing">Bảng Giá</a></li>
+                        <li><a href="index.html#contact">Liên Hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Hệ</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Đường Giặt Ủi, Thành Phố Sạch</p>
+                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> info@freshlaundry.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Fresh Laundry. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

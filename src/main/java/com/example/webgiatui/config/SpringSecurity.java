@@ -33,13 +33,7 @@ public class SpringSecurity {
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http.csrf().disable()
                                 .authorizeHttpRequests((authorize) -> authorize
-                                                .requestMatchers("/api/users/**").hasRole("ADMIN")
-                                                .requestMatchers("/api/staff/**").hasAnyRole("ADMIN", "STAFF")
-                                                .requestMatchers("/api/customers/**")
-                                                .hasAnyRole("ADMIN", "STAFF", "CUSTOMER")
-                                                .requestMatchers("/api/services/**").permitAll()
-                                                .requestMatchers("/register", "/login").permitAll()
-                                                .anyRequest().authenticated())
+                                                .requestMatchers("/**").permitAll())
                                 .formLogin(
                                                 form -> form
                                                                 .loginPage("/login")

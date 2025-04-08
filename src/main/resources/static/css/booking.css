@@ -1,0 +1,458 @@
+/* Booking Page CSS */
+
+.booking-section {
+    padding: 100px 0;
+    background-color: var(--accent-color);
+    margin-top: 80px;
+}
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.booking-header h2 {
+    margin-bottom: 10px;
+    color: var(--dark-color);
+}
+
+.booking-header p {
+    color: var(--gray-color);
+}
+
+.booking-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.booking-tabs {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.tab-buttons {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--gray-color);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.tab-button:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.tab-content {
+    padding: 30px;
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.booking-section-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.booking-section-title i {
+    color: var(--primary-color);
+    font-size: 20px;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(78, 205, 196, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.booking-section-title h3 {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.service-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.service-option {
+    position: relative;
+}
+
+.service-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.service-option label {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #f0f0f0;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.service-option input[type="radio"]:checked+label {
+    border-color: var(--primary-color);
+    background-color: rgba(78, 205, 196, 0.05);
+}
+
+.service-option label i {
+    color: var(--primary-color);
+    font-size: 20px;
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(78, 205, 196, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-details {
+    flex: 1;
+}
+
+.service-name {
+    display: block;
+    font-weight: 600;
+}
+
+.service-price {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--gray-color);
+}
+
+.booking-summary {
+    align-self: start;
+    position: sticky;
+    top: 100px;
+}
+
+.summary-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.summary-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.summary-header h3 {
+    margin-bottom: 0;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.summary-body {
+    padding: 20px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.summary-label {
+    color: var(--gray-color);
+    font-weight: 600;
+}
+
+.summary-value {
+    font-weight: 600;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+.summary-total .summary-label {
+    color: var(--dark-color);
+}
+
+.summary-total .summary-value {
+    color: var(--primary-color);
+}
+
+.summary-footer {
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #f0f0f0;
+}
+
+.summary-footer p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: var(--gray-color);
+}
+
+.why-book-with-us {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+
+.why-book-with-us h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.why-book-with-us ul {
+    padding-left: 0;
+}
+
+.why-book-with-us li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.why-book-with-us li i {
+    color: var(--success-color);
+    margin-right: 10px;
+}
+
+/* User info summary */
+.user-info-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+    background-color: var(--light-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+}
+
+.user-info-item {
+    display: flex;
+    align-items: center;
+}
+
+.user-info-item i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Booking Success */
+.booking-success {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.booking-success.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.success-content {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+    max-width: 500px;
+    animation: scaleIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--success-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 40px;
+}
+
+.booking-details {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    text-align: left;
+}
+
+.success-message {
+    color: var(--gray-color);
+    margin-bottom: 20px;
+}
+
+.success-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#guest-spinner,
+#user-spinner {
+    display: none;
+}
+
+/* Media Queries */
+@media screen and (max-width: 992px) {
+    .booking-container {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-summary {
+        position: static;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#guest-time,
+#user-time {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+/* Hiệu ứng khi hover vào select box */
+#guest-time:hover,
+#user-time:hover {
+    border-color: #bbb;
+    background-color: #f0f0f0;
+}
+
+/* Hiệu ứng khi focus vào select box */
+#guest-time:focus,
+#user-time:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    background-color: #fff;
+}
+
+/* Tùy chỉnh các option trong select box */
+#guest-time option,
+#user-time option {
+    padding: 12px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Tùy chỉnh nhãn của select box */
+label[for="guest-time"],
+label[for="user-time"] {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Thiết kế responsive cho phần giờ lấy đồ */
+@media screen and (max-width: 768px) {
+
+    #guest-time,
+    #user-time {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+}
+
+/* Style cho phần thời gian trong tóm tắt đặt lịch */
+#summary-time {
+    font-weight: 600;
+    color: #4a90e2;
+}
+
+/* Highlight phần thời gian khi được chọn */
+.time-selected {
+    background-color: #f5f9ff !important;
+}

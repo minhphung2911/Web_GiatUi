@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Người Dùng - Fresh Laundry</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Fresh<span>Laundry</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="index.html#services">Dịch Vụ</a></li>
+                    <li><a href="index.html#pricing">Bảng Giá</a></li>
+                    <li><a href="booking.html">Đặt Lịch</a></li>
+                    <li><a href="index.html#contact">Liên Hệ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Tìm kiếm...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                        <div id="search-results" class="search-results"></div>
+                    </div>
+                    <div id="auth-buttons" class="hidden">
+                        <a href="login.html" class="btn btn-outline">Đăng Nhập</a>
+                        <a href="register.html" class="btn btn-primary">Đăng Ký</a>
+                    </div>
+                    <div id="user-profile" class="user-profile">
+                        <div class="user-profile-img">
+                            <img id="nav-user-avatar" src="img/default-avatar.png" alt="Ảnh Đại Diện">
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển</a>
+                            <a href="profile.html" class="active"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                        </div>
+                    </div>
+                    <a href="booking.html" class="btn btn-book"><i class="fas fa-calendar-alt"></i> Đặt Lịch</a>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-title">
+                    <h2>Hồ Sơ Của Tôi</h2>
+                    <p>Quản lý thông tin cá nhân và tùy chọn của bạn</p>
+                </div>
+                <div class="profile-actions">
+                    <a href="dashboard.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Quay Lại Bảng
+                        Điều Khiển</a>
+                </div>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar-container">
+                        <div class="profile-avatar">
+                            <img id="user-avatar" src="img/default-avatar.png" alt="Ảnh Đại Diện">
+                            <div class="avatar-overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>Đổi Ảnh</span>
+                            </div>
+                        </div>
+                        <input type="file" id="avatar-upload" accept="image/*" class="hidden">
+                    </div>
+                    <div class="profile-user-info">
+                        <h3 id="profile-user-name">Nguyễn Văn A</h3>
+                        <p id="profile-user-email">nguyenvana@example.com</p>
+                        <p id="profile-join-date">Thành viên từ: Tháng 1 2023</p>
+                    </div>
+                    <div class="profile-menu">
+                        <button class="profile-menu-item active" data-tab="personal-info">
+                            <i class="fas fa-user"></i> Thông Tin Cá Nhân
+                        </button>
+                        <button class="profile-menu-item" data-tab="bookings">
+                            <i class="fas fa-calendar-alt"></i> Lịch Đặt Của Tôi
+                        </button>
+                        <button class="profile-menu-item" data-tab="change-password">
+                            <i class="fas fa-lock"></i> Đổi Mật Khẩu
+                        </button>
+                        <button class="profile-menu-item" data-tab="preferences">
+                            <i class="fas fa-cog"></i> Tùy Chọn
+                        </button>
+                    </div>
+                </div>
+                <div class="profile-main">
+                    <!-- Personal Information Tab -->
+                    <div class="profile-tab active" id="personal-info">
+                        <div class="profile-tab-header">
+                            <h3>Thông Tin Cá Nhân</h3>
+                            <p>Cập nhật thông tin cá nhân của bạn</p>
+                        </div>
+                        <form id="personal-info-form" class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">Tên</label>
+                                    <input type="text" id="first-name" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Họ</label>
+                                    <input type="text" id="last-name" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Địa Chỉ Email</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Số Điện Thoại</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Địa Chỉ</label>
+                                <textarea id="address" name="address" rows="3"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Bookings Tab -->
+                    <div class="profile-tab" id="bookings">
+                        <div class="profile-tab-header">
+                            <h3>Lịch Đặt Của Tôi</h3>
+                            <p>Xem và quản lý lịch đặt của bạn</p>
+                        </div>
+                        <div class="bookings-filter">
+                            <div class="filter-group">
+                                <label for="booking-status">Trạng Thái</label>
+                                <select id="booking-status">
+                                    <option value="all">Tất Cả</option>
+                                    <option value="upcoming">Sắp Tới</option>
+                                    <option value="completed">Đã Hoàn Thành</option>
+                                    <option value="cancelled">Đã Hủy</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="booking-date-range">Khoảng Thời Gian</label>
+                                <select id="booking-date-range">
+                                    <option value="all">Tất Cả Thời Gian</option>
+                                    <option value="this-month">Tháng Này</option>
+                                    <option value="last-month">Tháng Trước</option>
+                                    <option value="last-3-months">3 Tháng Gần Đây</option>
+                                    <option value="custom">Tùy Chỉnh</option>
+                                </select>
+                            </div>
+                            <div class="filter-group custom-date-range hidden">
+                                <div class="date-inputs">
+                                    <input type="date" id="date-from">
+                                    <span>đến</span>
+                                    <input type="date" id="date-to">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bookings-calendar">
+                            <div class="calendar-header">
+                                <button id="prev-month" class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+                                <h4 id="calendar-month">Tháng 3 2023</h4>
+                                <button id="next-month" class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-weekdays">
+                                    <div>CN</div>
+                                    <div>T2</div>
+                                    <div>T3</div>
+                                    <div>T4</div>
+                                    <div>T5</div>
+                                    <div>T6</div>
+                                    <div>T7</div>
+                                </div>
+                                <div id="calendar-days" class="calendar-days">
+                                    <!-- Calendar days will be generated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bookings-list">
+                            <h4>Lịch Sử Đặt Lịch</h4>
+                            <div id="bookings-list-container">
+                                <!-- Bookings will be loaded here -->
+                                <div class="no-data-message hidden" id="no-bookings">
+                                    <div class="no-data-icon">
+                                        <i class="fas fa-calendar-times"></i>
+                                    </div>
+                                    <h3>Không tìm thấy lịch đặt</h3>
+                                    <p>Bạn chưa đặt lịch nào.</p>
+                                    <a href="booking.html" class="btn btn-primary">Đặt Lịch Ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Change Password Tab -->
+                    <div class="profile-tab" id="change-password">
+                        <div class="profile-tab-header">
+                            <h3>Đổi Mật Khẩu</h3>
+                            <p>Cập nhật mật khẩu để giữ an toàn cho tài khoản của bạn</p>
+                        </div>
+                        <form id="change-password-form" class="profile-form">
+                            <div class="form-group">
+                                <label for="current-password">Mật Khẩu Hiện Tại</label>
+                                <div class="password-input">
+                                    <input type="password" id="current-password" name="currentPassword" required>
+                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Mật Khẩu Mới</label>
+                                <div class="password-input">
+                                    <input type="password" id="new-password" name="newPassword" required>
+                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-meter">
+                                        <div class="strength-meter-fill" data-strength="0"></div>
+                                    </div>
+                                    <div class="strength-text">Độ mạnh mật khẩu: <span>Yếu</span></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Xác Nhận Mật Khẩu Mới</label>
+                                <div class="password-input">
+                                    <input type="password" id="confirm-password" name="confirmPassword" required>
+                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </div>
+                            <div class="password-requirements">
+                                <p>Mật khẩu phải:</p>
+                                <ul>
+                                    <li id="req-length"><i class="fas fa-times"></i> Có ít nhất 8 ký tự</li>
+                                    <li id="req-uppercase"><i class="fas fa-times"></i> Bao gồm ít nhất một chữ hoa</li>
+                                    <li id="req-lowercase"><i class="fas fa-times"></i> Bao gồm ít nhất một chữ thường
+                                    </li>
+                                    <li id="req-number"><i class="fas fa-times"></i> Bao gồm ít nhất một số</li>
+                                    <li id="req-special"><i class="fas fa-times"></i> Bao gồm ít nhất một ký tự đặc biệt
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Cập Nhật Mật Khẩu</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Preferences Tab -->
+                    <div class="profile-tab" id="preferences">
+                        <div class="profile-tab-header">
+                            <h3>Tùy Chọn</h3>
+                            <p>Tùy chỉnh tùy chọn dịch vụ giặt ủi của bạn</p>
+                        </div>
+                        <form id="preferences-form" class="profile-form">
+                            <div class="preferences-section">
+                                <h4>Tùy Chọn Giặt Ủi</h4>
+                                <div class="preference-options">
+                                    <div class="preference-item">
+                                        <label for="detergent-preference">Loại Bột Giặt</label>
+                                        <select id="detergent-preference" name="detergent">
+                                            <option value="regular">Thông Thường</option>
+                                            <option value="hypoallergenic">Không Gây Dị Ứng</option>
+                                            <option value="eco-friendly">Thân Thiện Môi Trường</option>
+                                            <option value="fragrance-free">Không Mùi</option>
+                                        </select>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label for="starch-level">Mức Độ Hồ Vải</label>
+                                        <select id="starch-level" name="starchLevel">
+                                            <option value="none">Không</option>
+                                            <option value="light">Nhẹ</option>
+                                            <option value="medium">Vừa</option>
+                                            <option value="heavy">Đậm</option>
+                                        </select>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="fabric-softener" name="fabricSoftener">
+                                            <span class="checkbox-custom"></span>
+                                            Sử Dụng Nước Xả Vải
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="preferences-section">
+                                <h4>Tùy Chọn Giao Hàng</h4>
+                                <div class="preference-options">
+                                    <div class="preference-item">
+                                        <label for="delivery-time">Thời Gian Giao Hàng Ưa Thích</label>
+                                        <select id="delivery-time" name="deliveryTime">
+                                            <option value="morning">Buổi Sáng (8h - 12h)</option>
+                                            <option value="afternoon">Buổi Chiều (12h - 17h)</option>
+                                            <option value="evening">Buổi Tối (17h - 20h)</option>
+                                        </select>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label for="delivery-instructions">Hướng Dẫn Giao Hàng</label>
+                                        <textarea id="delivery-instructions" name="deliveryInstructions" rows="3"
+                                            placeholder="Hướng dẫn đặc biệt cho việc giao hàng..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="preferences-section">
+                                <h4>Tùy Chọn Thông Báo</h4>
+                                <div class="preference-options">
+                                    <div class="preference-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="email-notifications" name="emailNotifications">
+                                            <span class="checkbox-custom"></span>
+                                            Thông Báo Qua Email
+                                        </label>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="sms-notifications" name="smsNotifications">
+                                            <span class="checkbox-custom"></span>
+                                            Thông Báo Qua SMS
+                                        </label>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="promo-emails" name="promoEmails">
+                                            <span class="checkbox-custom"></span>
+                                            Email Khuyến Mãi
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Lưu Tùy Chọn</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Fresh<span>Laundry</span></h2>
+                    <p>Dịch vụ giặt ủi chuyên nghiệp cho mọi nhu cầu của bạn.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-column">
+                        <h3>Liên Kết Nhanh</h3>
+                        <a href="index.html">Trang Chủ</a>
+                        <a href="index.html#services">Dịch Vụ</a>
+                        <a href="index.html#pricing">Bảng Giá</a>
+                        <a href="booking.html">Đặt Lịch</a>
+                        <a href="index.html#contact">Liên Hệ</a>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>Dịch Vụ</h3>
+                        <a href="booking.html?service=wash-fold">Giặt & Gấp</a>
+                        <a href="booking.html?service=dry-cleaning">Giặt Khô</a>
+                        <a href="booking.html?service=ironing">Ủi</a>
+                        <a href="booking.html?service=pickup-delivery">Đón & Giao Hàng</a>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>Liên Hệ Với Chúng Tôi</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Đường Giặt Ủi, Thành Phố Sạch</p>
+                        <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                        <p><i class="fas fa-envelope"></i> info@freshlaundry.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Fresh Laundry. Tất cả các quyền được bảo lưu.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Notification Modal -->
+    <div id="notification-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h3 id="modal-title">Thông Báo</h3>
+            <div id="modal-body">
+                <p>Đây là tin nhắn thông báo.</p>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-primary-btn" class="btn btn-primary">OK</button>
+                <button id="modal-secondary-btn" class="btn btn-outline">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="spinner" class="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+
+</html>
