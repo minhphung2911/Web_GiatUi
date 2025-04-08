@@ -72,9 +72,30 @@ public class UserServiceImpl implements UserService {
         return roleRepository.save(role);
     }
 
-    private Role checkRoleAdminExist() {
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        return roleRepository.save(role);
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User create(User entity) {
+        return userRepository.save(entity);
+    }
+
+    @Override
+    public User getById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public User update(Long id, User entity) {
+        entity.setId(id);
+        return userRepository.save(entity);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }

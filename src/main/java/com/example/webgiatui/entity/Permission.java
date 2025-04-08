@@ -2,23 +2,25 @@ package com.example.webgiatui.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Permission {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id", nullable = false)
-    private Long id;
+@Table(name = "permissions")
+public class Permission extends BaseEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @Size(max = 50)
-    @Column(name = "Code", length = 50)
+    @Column(name = "code", length = 50)
     private String code;
 
     @Size(max = 100)
@@ -26,5 +28,5 @@ public class Permission {
     private String permissionName;
 
     @ManyToMany(mappedBy = "permissions")
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 }
