@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Lịch - Dịch Vụ Giặt Là Fresh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/booking.css}">
+</head>
+
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a th:href="@{/}" class="logo">Fresh<span>Laundry</span></a>
+                <ul class="nav-links">
+                    <li><a th:href="@{/}">Trang Chủ</a></li>
+                    <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                    <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                    <li><a th:href="@{/#contact}">Liên Hệ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div id="auth-buttons" class="auth-buttons">
+                        <a th:href="@{/login}" class="btn btn-login">Đăng Nhập</a>
+                        <a th:href="@{/register}" class="btn btn-primary">Đăng Ký</a>
+                    </div>
+                    <div id="user-profile" class="user-profile hidden">
+                        <div class="user-profile-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a th:href="@{/dashboard}"><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển</a>
+                            <a th:href="@{/profile}"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Booking Section -->
+    <section class="booking-section">
+        <div class="container">
+            <div class="booking-header fade-in">
+                <h2>Đặt Lịch Giặt Là</h2>
+                <p>Chọn dịch vụ, ngày và giờ lấy đồ bạn mong muốn</p>
+            </div>
+            <div class="booking-container">
+                <!-- Booking Tabs -->
+                <div class="booking-tabs fade-in">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" data-tab="guest-booking" id="guest-tab">Đặt Lịch
+                            Khách</button>
+                        <button class="tab-button" data-tab="user-booking" id="user-tab">Đặt Lịch Thành Viên</button>
+                    </div>
+
+                    <!-- Guest Booking Form -->
+                    <div class="tab-content active" id="guest-booking">
+                        <div class="alert-box info-alert" id="guest-info">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Để có trải nghiệm tốt hơn trong việc theo dõi và quản lý đơn hàng, hãy xem xét <a
+                                    th:href="@{/register}">tạo tài khoản</a>.</span>
+                        </div>
+                        <form id="guest-booking-form">
+                            <div class="booking-section-title">
+                                <i class="fas fa-user"></i>
+                                <h3>Thông Tin Liên Hệ</h3>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="guest-name">Họ và Tên</label>
+                                    <input type="text" id="guest-name" name="name" placeholder="Nguyễn Văn A" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guest-email">Email</label>
+                                    <input type="email" id="guest-email" name="email"
+                                        placeholder="nguyenvana@example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="guest-phone">Số Điện Thoại</label>
+                                    <input type="tel" id="guest-phone" name="phone" placeholder="0912 345 678" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guest-address">Địa Chỉ</label>
+                                    <input type="text" id="guest-address" name="address"
+                                        placeholder="123 Đường ABC, Quận X, TP. Y" required>
+                                </div>
+                            </div>
+
+                            <div class="booking-section-title">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h3>Chi Tiết Lịch Hẹn</h3>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="guest-date">Ngày Lấy Đồ</label>
+                                    <input type="date" id="guest-date" name="date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guest-time">Giờ Lấy Đồ</label>
+                                    <select id="guest-time" name="time" required>
+                                        <option value="" disabled selected>Chọn thời gian</option>
+                                        <option value="09:00">09:00 Sáng</option>
+                                        <option value="10:00">10:00 Sáng</option>
+                                        <option value="11:00">11:00 Sáng</option>
+                                        <option value="12:00">12:00 Trưa</option>
+                                        <option value="13:00">01:00 Chiều</option>
+                                        <option value="14:00">02:00 Chiều</option>
+                                        <option value="15:00">03:00 Chiều</option>
+                                        <option value="16:00">04:00 Chiều</option>
+                                        <option value="17:00">05:00 Chiều</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="booking-section-title">
+                                <i class="fas fa-tshirt"></i>
+                                <h3>Lựa Chọn Dịch Vụ</h3>
+                            </div>
+                            <div class="service-selection">
+                                <div class="service-option">
+                                    <input type="radio" id="guest-service-1" name="service" value="wash-fold" checked>
+                                    <label for="guest-service-1">
+                                        <i class="fas fa-tshirt"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Giặt & Gấp</span>
+                                            <span class="service-price">70.000đ/kg</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="service-option">
+                                    <input type="radio" id="guest-service-2" name="service" value="dry-cleaning">
+                                    <label for="guest-service-2">
+                                        <i class="fas fa-wind"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Giặt Khô</span>
+                                            <span class="service-price">150.000đ/món</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="service-option">
+                                    <input type="radio" id="guest-service-3" name="service" value="ironing">
+                                    <label for="guest-service-3">
+                                        <i class="fas fa-iron"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Dịch Vụ Ủi</span>
+                                            <span class="service-price">75.000đ/món</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="service-option">
+                                    <input type="radio" id="guest-service-4" name="service" value="premium">
+                                    <label for="guest-service-4">
+                                        <i class="fas fa-gem"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Gói Cao Cấp</span>
+                                            <span class="service-price">600.000đ+</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="guest-notes">Hướng Dẫn Đặc Biệt (Không bắt buộc)</label>
+                                <textarea id="guest-notes" name="notes"
+                                    placeholder="Hướng dẫn hoặc yêu cầu đặc biệt"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block" id="guest-submit-btn">
+                                <span>Đặt Lịch Hẹn</span>
+                                <i class="fas fa-spinner fa-spin" id="guest-spinner"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- User Booking Form -->
+                    <div class="tab-content" id="user-booking">
+                        <div class="alert-box warning-alert" id="login-required">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Vui lòng <a th:href="@{/login}">đăng nhập</a> để truy cập thông tin tài khoản của
+                                bạn.</span>
+                        </div>
+                        <form id="user-booking-form" class="hidden">
+                            <div class="booking-section-title">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h3>Chi Tiết Lịch Hẹn</h3>
+                            </div>
+                            <div class="user-info-summary">
+                                <div class="user-info-item">
+                                    <i class="fas fa-user"></i>
+                                    <span id="user-info-name">Nguyễn Văn A</span>
+                                </div>
+                                <div class="user-info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span id="user-info-email">nguyenvana@example.com</span>
+                                </div>
+                                <div class="user-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span id="user-info-phone">0912 345 678</span>
+                                </div>
+                                <div class="user-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span id="user-info-address">123 Đường ABC, Quận X, TP. Y</span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-date">Ngày Lấy Đồ</label>
+                                    <input type="date" id="user-date" name="date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-time">Giờ Lấy Đồ</label>
+                                    <select id="user-time" name="time" required>
+                                        <option value="" disabled selected>Chọn thời gian</option>
+                                        <option value="09:00">09:00 Sáng</option>
+                                        <option value="10:00">10:00 Sáng</option>
+                                        <option value="11:00">11:00 Sáng</option>
+                                        <option value="12:00">12:00 Trưa</option>
+                                        <option value="13:00">01:00 Chiều</option>
+                                        <option value="14:00">02:00 Chiều</option>
+                                        <option value="15:00">03:00 Chiều</option>
+                                        <option value="16:00">04:00 Chiều</option>
+                                        <option value="17:00">05:00 Chiều</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="booking-section-title">
+                                <i class="fas fa-tshirt"></i>
+                                <h3>Lựa Chọn Dịch Vụ</h3>
+                            </div>
+                            <div class="service-selection">
+                                <div class="service-option">
+                                    <input type="radio" id="user-service-1" name="service" value="wash-fold" checked>
+                                    <label for="user-service-1">
+                                        <i class="fas fa-tshirt"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Giặt & Gấp</span>
+                                            <span class="service-price">70.000đ/kg</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="service-option">
+                                    <input type="radio" id="user-service-2" name="service" value="dry-cleaning">
+                                    <label for="user-service-2">
+                                        <i class="fas fa-wind"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Giặt Khô</span>
+                                            <span class="service-price">150.000đ/món</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="service-option">
+                                    <input type="radio" id="user-service-3" name="service" value="ironing">
+                                    <label for="user-service-3">
+                                        <i class="fas fa-iron"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Dịch Vụ Ủi</span>
+                                            <span class="service-price">75.000đ/món</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="service-option">
+                                    <input type="radio" id="user-service-4" name="service" value="premium">
+                                    <label for="user-service-4">
+                                        <i class="fas fa-gem"></i>
+                                        <div class="service-details">
+                                            <span class="service-name">Gói Cao Cấp</span>
+                                            <span class="service-price">600.000đ+</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user-notes">Hướng Dẫn Đặc Biệt (Không bắt buộc)</label>
+                                <textarea id="user-notes" name="notes"
+                                    placeholder="Hướng dẫn hoặc yêu cầu đặc biệt"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block" id="user-submit-btn">
+                                <span>Đặt Lịch Hẹn</span>
+                                <i class="fas fa-spinner fa-spin" id="user-spinner"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Booking Summary -->
+                <div class="booking-summary fade-in">
+                    <div class="summary-card">
+                        <div class="summary-header">
+                            <h3>Tóm Tắt Đặt Lịch</h3>
+                        </div>
+                        <div class="summary-body">
+                            <div class="summary-item">
+                                <span class="summary-label">Dịch vụ:</span>
+                                <span class="summary-value" id="summary-service">Giặt & Gấp</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Ngày:</span>
+                                <span class="summary-value" id="summary-date">Chưa chọn</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Thời gian:</span>
+                                <span class="summary-value" id="summary-time">Chưa chọn</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Giá ước tính:</span>
+                                <span class="summary-value" id="summary-price">70.000đ/kg</span>
+                            </div>
+                            <hr>
+                            <div class="summary-total">
+                                <span class="summary-label">Tổng:</span>
+                                <span class="summary-value" id="summary-total">Thay đổi theo cân nặng</span>
+                            </div>
+                        </div>
+                        <div class="summary-footer">
+                            <p><i class="fas fa-info-circle"></i> Giá cuối cùng sẽ được tính dựa trên trọng lượng và số
+                                lượng đồ.</p>
+                        </div>
+                    </div>
+                    <div class="why-book-with-us">
+                        <h3>Tại Sao Nên Chọn Chúng Tôi</h3>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Kỹ thuật giặt chuyên nghiệp</li>
+                            <li><i class="fas fa-check-circle"></i> Chất tẩy thân thiện với môi trường</li>
+                            <li><i class="fas fa-check-circle"></i> Miễn phí đón và giao hàng</li>
+                            <li><i class="fas fa-check-circle"></i> Đảm bảo hài lòng 100%</li>
+                            <li><i class="fas fa-check-circle"></i> Đặt lịch trực tuyến an toàn</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Message -->
+    <div class="booking-success" id="booking-success">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Đặt Lịch Thành Công!</h2>
+            <p>Lịch hẹn của bạn đã được đặt thành công.</p>
+            <div class="booking-details">
+                <p><strong>Dịch vụ:</strong> <span id="success-service">Giặt & Gấp</span></p>
+                <p><strong>Ngày:</strong> <span id="success-date">15 tháng 7, 2023</span></p>
+                <p><strong>Thời gian:</strong> <span id="success-time">10:00 Sáng</span></p>
+            </div>
+            <p class="success-message">Chúng tôi đã gửi email xác nhận với tất cả các chi tiết.</p>
+            <div class="success-buttons">
+                <a th:href="@{/}" class="btn btn-secondary">Về Trang Chủ</a>
+                <a th:href="@{/dashboard}" class="btn btn-primary" id="view-dashboard-btn">Xem Bảng Điều Khiển</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content compact">
+                <div class="footer-section">
+                    <h3>Fresh Laundry</h3>
+                    <p>Dịch vụ giặt là chuyên nghiệp cho mọi nhu cầu của bạn.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Kết Nhanh</h3>
+                    <ul class="footer-links">
+                        <li><a th:href="@{/}">Trang Chủ</a></li>
+                        <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                        <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                        <li><a th:href="@{/#contact}">Liên Hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Hệ</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Đường Giặt Là, Thành phố Sạch</p>
+                    <p><i class="fas fa-phone"></i> (028) 1234-5678</p>
+                    <p><i class="fas fa-envelope"></i> info@freshlaundry.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Fresh Laundry. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast-container" id="toast-container">
+        <!-- Notifications will be dynamically added here -->
+    </div>
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/animations.js}"></script>
+    <script th:src="@{/js/auth.js}"></script>
+    <script th:src="@{/js/booking-api.js}"></script>
+    <script th:src="@{/js/booking-service.js}"></script>
+    <script th:src="@{/js/booking.js}"></script>
+</body>
+
+</html>
