@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bảng Điều Khiển - Dịch Vụ Giặt Ủi Fresh Laundry</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 
 <body>
@@ -16,12 +16,12 @@
     <header id="header">
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">Fresh<span>Laundry</span></a>
+                <a th:href="@{/}" class="logo">Fresh<span>Laundry</span></a>
                 <ul class="nav-links">
-                    <li><a href="index.html">Trang Chủ</a></li>
-                    <li><a href="index.html#services">Dịch Vụ</a></li>
-                    <li><a href="index.html#pricing">Bảng Giá</a></li>
-                    <li><a href="index.html#contact">Liên Hệ</a></li>
+                    <li><a th:href="@{/}">Trang Chủ</a></li>
+                    <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                    <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                    <li><a th:href="@{/#contact}">Liên Hệ</a></li>
                 </ul>
                 <div class="nav-actions">
                     <div id="user-profile" class="user-profile">
@@ -29,13 +29,13 @@
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="dropdown-menu">
-                            <a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Bảng Điều
+                            <a th:href="@{/dashboard}" class="active"><i class="fas fa-tachometer-alt"></i> Bảng Điều
                                 Khiển</a>
-                            <a href="profile.html"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
+                            <a th:href="@{/profile}"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
                             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
                         </div>
                     </div>
-                    <a href="booking.html" class="btn btn-book"><i class="fas fa-calendar-alt"></i> Đặt Lịch</a>
+                    <a th:href="@{/booking}" class="btn btn-book"><i class="fas fa-calendar-alt"></i> Đặt Lịch</a>
                 </div>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -53,7 +53,7 @@
                     <p>Chào mừng trở lại, <span id="user-name">Văn</span></p>
                 </div>
                 <div class="dashboard-actions">
-                    <a href="booking.html" class="btn btn-primary"><i class="fas fa-plus"></i> Đặt Lịch Mới</a>
+                    <a th:href="@{/booking}" class="btn btn-primary"><i class="fas fa-plus"></i> Đặt Lịch Mới</a>
                 </div>
             </div>
 
@@ -120,7 +120,7 @@
                             </div>
                             <h3>Không Có Lịch Hẹn Sắp Tới</h3>
                             <p>Bạn chưa có lịch hẹn nào được đặt.</p>
-                            <a href="booking.html" class="btn btn-primary">Đặt Lịch Ngay</a>
+                            <a th:href="@{/booking}" class="btn btn-primary">Đặt Lịch Ngay</a>
                         </div>
 
                         <div class="appointment-list" id="appointment-list">
@@ -397,10 +397,10 @@
                 <div class="footer-section">
                     <h3>Liên Kết Nhanh</h3>
                     <ul class="footer-links">
-                        <li><a href="index.html">Trang Chủ</a></li>
-                        <li><a href="index.html#services">Dịch Vụ</a></li>
-                        <li><a href="index.html#pricing">Bảng Giá</a></li>
-                        <li><a href="index.html#contact">Liên Hệ</a></li>
+                        <li><a th:href="@{/}">Trang Chủ</a></li>
+                        <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                        <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                        <li><a th:href="@{/#contact}">Liên Hệ</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -422,10 +422,10 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/dashboard.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/animations.js}"></script>
+    <script th:src="@{/js/auth.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
 </body>
 
 </html>

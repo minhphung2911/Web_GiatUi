@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đặt Lịch - Dịch Vụ Giặt Là Fresh</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/booking.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/booking.css}">
 </head>
 
 <body>
@@ -16,25 +16,25 @@
     <header id="header">
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">Fresh<span>Laundry</span></a>
+                <a th:href="@{/}" class="logo">Fresh<span>Laundry</span></a>
                 <ul class="nav-links">
-                    <li><a href="index.html">Trang Chủ</a></li>
-                    <li><a href="index.html#services">Dịch Vụ</a></li>
-                    <li><a href="index.html#pricing">Bảng Giá</a></li>
-                    <li><a href="index.html#contact">Liên Hệ</a></li>
+                    <li><a th:href="@{/}">Trang Chủ</a></li>
+                    <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                    <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                    <li><a th:href="@{/#contact}">Liên Hệ</a></li>
                 </ul>
                 <div class="nav-actions">
                     <div id="auth-buttons" class="auth-buttons">
-                        <a href="login.html" class="btn btn-login">Đăng Nhập</a>
-                        <a href="register.html" class="btn btn-primary">Đăng Ký</a>
+                        <a th:href="@{/login}" class="btn btn-login">Đăng Nhập</a>
+                        <a th:href="@{/register}" class="btn btn-primary">Đăng Ký</a>
                     </div>
                     <div id="user-profile" class="user-profile hidden">
                         <div class="user-profile-img">
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="dropdown-menu">
-                            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển</a>
-                            <a href="profile.html"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
+                            <a th:href="@{/dashboard}"><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển</a>
+                            <a th:href="@{/profile}"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
                             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="alert-box info-alert" id="guest-info">
                             <i class="fas fa-info-circle"></i>
                             <span>Để có trải nghiệm tốt hơn trong việc theo dõi và quản lý đơn hàng, hãy xem xét <a
-                                    href="register.html">tạo tài khoản</a>.</span>
+                                    th:href="@{/register}">tạo tài khoản</a>.</span>
                         </div>
                         <form id="guest-booking-form">
                             <div class="booking-section-title">
@@ -187,7 +187,7 @@
                     <div class="tab-content" id="user-booking">
                         <div class="alert-box warning-alert" id="login-required">
                             <i class="fas fa-exclamation-triangle"></i>
-                            <span>Vui lòng <a href="login.html">đăng nhập</a> để truy cập thông tin tài khoản của
+                            <span>Vui lòng <a th:href="@{/login}">đăng nhập</a> để truy cập thông tin tài khoản của
                                 bạn.</span>
                         </div>
                         <form id="user-booking-form" class="hidden">
@@ -360,8 +360,8 @@
             </div>
             <p class="success-message">Chúng tôi đã gửi email xác nhận với tất cả các chi tiết.</p>
             <div class="success-buttons">
-                <a href="index.html" class="btn btn-secondary">Về Trang Chủ</a>
-                <a href="dashboard.html" class="btn btn-primary" id="view-dashboard-btn">Xem Bảng Điều Khiển</a>
+                <a th:href="@{/}" class="btn btn-secondary">Về Trang Chủ</a>
+                <a th:href="@{/dashboard}" class="btn btn-primary" id="view-dashboard-btn">Xem Bảng Điều Khiển</a>
             </div>
         </div>
     </div>
@@ -382,10 +382,10 @@
                 <div class="footer-section">
                     <h3>Liên Kết Nhanh</h3>
                     <ul class="footer-links">
-                        <li><a href="index.html">Trang Chủ</a></li>
-                        <li><a href="index.html#services">Dịch Vụ</a></li>
-                        <li><a href="index.html#pricing">Bảng Giá</a></li>
-                        <li><a href="index.html#contact">Liên Hệ</a></li>
+                        <li><a th:href="@{/}">Trang Chủ</a></li>
+                        <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                        <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                        <li><a th:href="@{/#contact}">Liên Hệ</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -406,11 +406,18 @@
         <div class="spinner"></div>
     </div>
 
+    <!-- Notification Toast -->
+    <div class="toast-container" id="toast-container">
+        <!-- Notifications will be dynamically added here -->
+    </div>
+
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/booking.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/animations.js}"></script>
+    <script th:src="@{/js/auth.js}"></script>
+    <script th:src="@{/js/booking-api.js}"></script>
+    <script th:src="@{/js/booking-service.js}"></script>
+    <script th:src="@{/js/booking.js}"></script>
 </body>
 
 </html>
