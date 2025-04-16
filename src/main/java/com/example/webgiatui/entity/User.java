@@ -35,4 +35,26 @@ public class User extends BaseEntity<Long> {
             @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "role_id", referencedColumnName = "id") })
     private List<Role> roles = new ArrayList<>();
+    
+    // Orders placed by this user
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
+    
+    /**
+     * Helper method to get first name
+     */
+    @Transient
+    public String getFirstName() {
+        String[] names = this.name.split(" ", 2);
+        return names.length > 0 ? names[0] : "";
+    }
+    
+    /**
+     * Helper method to get last name
+     */
+    @Transient
+    public String getLastName() {
+        String[] names = this.name.split(" ", 2);
+        return names.length > 1 ? names[1] : "";
+    }
 }
