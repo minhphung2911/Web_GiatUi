@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dịch Vụ Giặt Là Fresh Laundry</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{../static/css/styles.css}">
-    <link rel="stylesheet" th:href="@{../static/css/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
 </head>
 
 <body>
@@ -15,9 +15,9 @@
     <header id="header">
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">Fresh<span>Laundry</span></a>
+                <a th:href="@{/}" class="logo">Fresh<span>Laundry</span></a>
                 <ul class="nav-links">
-                    <li><a href="index.html" class="active">Trang chủ</a></li>
+                    <li><a th:href="@{/}" class="active">Trang chủ</a></li>
                     <li><a href="#services">Dịch vụ</a></li>
                     <li><a href="#pricing">Bảng giá</a></li>
                     <li><a href="#contact">Liên hệ</a></li>
@@ -31,20 +31,20 @@
                 </ul>
                 <div class="nav-actions">
                     <div id="auth-buttons" class="auth-buttons">
-                        <a href="login.html" class="btn btn-login">Đăng nhập</a>
-                        <a href="register.html" class="btn btn-primary">Đăng ký</a>
+                        <a th:href="@{/login}" class="btn btn-login">Đăng nhập</a>
+                        <a th:href="@{/register}" class="btn btn-primary">Đăng ký</a>
                     </div>
                     <div id="user-profile" class="user-profile hidden">
                         <div class="user-profile-img">
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="dropdown-menu">
-                            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</a>
-                            <a href="profile.html"><i class="fas fa-user-edit"></i> Hồ sơ</a>
+                            <a th:href="@{/dashboard}"><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</a>
+                            <a th:href="@{/profile}"><i class="fas fa-user-edit"></i> Hồ sơ</a>
                             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                         </div>
                     </div>
-                    <a href="booking.html" class="btn btn-book"><i class="fas fa-calendar-alt"></i> Đặt lịch ngay</a>
+                    <a th:href="@{/booking}" class="btn btn-book"><i class="fas fa-calendar-alt"></i> Đặt lịch ngay</a>
                 </div>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -61,7 +61,7 @@
                 <p class="slide-up delay-1">Chúng tôi chăm sóc quần áo của bạn để bạn có thể tập trung vào những điều
                     quan trọng nhất.</p>
                 <div class="hero-buttons slide-up delay-2">
-                    <a href="booking.html" class="btn btn-primary btn-lg pulse"><i class="fas fa-calendar-alt"></i> Đặt
+                    <a th:href="@{/booking}" class="btn btn-primary btn-lg pulse"><i class="fas fa-calendar-alt"></i> Đặt
                         lịch ngay</a>
                     <a href="#services" class="btn btn-outline btn-lg">Dịch vụ của chúng tôi</a>
                 </div>
@@ -84,7 +84,7 @@
                     <h3>Giặt & Gấp</h3>
                     <p>Dịch vụ giặt và gấp tiêu chuẩn cho tất cả quần áo thông thường. Chúng tôi sử dụng chất tẩy rửa
                         cao cấp để có kết quả tốt nhất.</p>
-                    <a href="booking.html?service=wash-fold" class="btn btn-secondary">Đặt dịch vụ</a>
+                    <a th:href="@{/booking(service='wash-fold')}" class="btn btn-secondary">Đặt dịch vụ</a>
                 </div>
                 <div class="service-card fade-in delay-1">
                     <div class="service-icon">
@@ -92,7 +92,7 @@
                     </div>
                     <h3>Giặt Khô</h3>
                     <p>Dịch vụ giặt khô chuyên nghiệp cho quần áo tinh xảo, vest, váy và các món đồ đặc biệt khác.</p>
-                    <a href="booking.html?service=dry-cleaning" class="btn btn-secondary">Đặt dịch vụ</a>
+                    <a th:href="@{/booking(service='dry-cleaning')}" class="btn btn-secondary">Đặt dịch vụ</a>
                 </div>
                 <div class="service-card fade-in delay-2">
                     <div class="service-icon">
@@ -101,7 +101,7 @@
                     <h3>Dịch Vụ Ủi</h3>
                     <p>Giúp quần áo của bạn được ủi hoàn hảo và sẵn sàng để mặc với dịch vụ ủi chuyên nghiệp của chúng
                         tôi.</p>
-                    <a href="booking.html?service=ironing" class="btn btn-secondary">Đặt dịch vụ</a>
+                    <a th:href="@{/booking(service='ironing')}" class="btn btn-secondary">Đặt dịch vụ</a>
                 </div>
                 <div class="service-card fade-in delay-3">
                     <div class="service-icon">
@@ -110,7 +110,7 @@
                     <h3>Đón & Giao Hàng</h3>
                     <p>Dịch vụ đón và giao hàng thuận tiện tận cửa nhà. Tiết kiệm thời gian và để chúng tôi lo tất cả.
                     </p>
-                    <a href="booking.html?service=pickup-delivery" class="btn btn-secondary">Đặt dịch vụ</a>
+                    <a th:href="@{/booking(service='pickup-delivery')}" class="btn btn-secondary">Đặt dịch vụ</a>
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@
                         <li><i class="fas fa-check"></i> Hoàn thành trong 48 giờ</li>
                         <li class="disabled"><i class="fas fa-times"></i> Không giao hàng</li>
                     </ul>
-                    <a href="booking.html?plan=basic" class="btn btn-primary">Bắt đầu ngay</a>
+                    <a th:href="@{/booking(plan='basic')}" class="btn btn-primary">Bắt đầu ngay</a>
                 </div>
                 <div class="pricing-card featured fade-in delay-1">
                     <div class="popular-tag">Phổ biến nhất</div>
@@ -194,7 +194,7 @@
                         <li><i class="fas fa-check"></i> Hoàn thành trong 24 giờ</li>
                         <li><i class="fas fa-check"></i> Miễn phí giao hàng</li>
                     </ul>
-                    <a href="booking.html?plan=premium" class="btn btn-primary">Bắt đầu ngay</a>
+                    <a th:href="@{/booking(plan='premium')}" class="btn btn-primary">Bắt đầu ngay</a>
                 </div>
                 <div class="pricing-card fade-in delay-2">
                     <div class="pricing-header">
@@ -208,7 +208,7 @@
                         <li><i class="fas fa-check"></i> Hoàn thành trong 48 giờ</li>
                         <li><i class="fas fa-check"></i> Miễn phí giao hàng cho 5+ món</li>
                     </ul>
-                    <a href="booking.html?plan=dry-cleaning" class="btn btn-primary">Bắt đầu ngay</a>
+                    <a th:href="@{/booking(plan='dry-cleaning')}" class="btn btn-primary">Bắt đầu ngay</a>
                 </div>
             </div>
         </div>
@@ -297,8 +297,8 @@
                 <h2>Sẵn Sàng Trải Nghiệm Dịch Vụ Giặt Là Tốt Nhất?</h2>
                 <p>Tham gia cùng hàng nghìn khách hàng hài lòng tin tưởng chúng tôi với nhu cầu giặt là của họ.</p>
                 <div class="cta-buttons">
-                    <a href="register.html" class="btn btn-secondary btn-lg">Tạo tài khoản</a>
-                    <a href="booking.html" class="btn btn-primary btn-lg">Đặt lịch ngay</a>
+                    <a th:href="@{/register}" class="btn btn-secondary btn-lg">Tạo tài khoản</a>
+                    <a th:href="@{/booking}" class="btn btn-primary btn-lg">Đặt lịch ngay</a>
                 </div>
             </div>
         </div>
@@ -367,20 +367,20 @@
                 <div class="footer-section">
                     <h3>Liên Kết Nhanh</h3>
                     <ul class="footer-links">
-                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a th:href="@{/}">Trang chủ</a></li>
                         <li><a href="#services">Dịch vụ</a></li>
                         <li><a href="#pricing">Bảng giá</a></li>
                         <li><a href="#contact">Liên hệ</a></li>
-                        <li><a href="booking.html">Đặt lịch ngay</a></li>
+                        <li><a th:href="@{/booking}">Đặt lịch ngay</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h3>Dịch Vụ</h3>
                     <ul class="footer-links">
-                        <li><a href="booking.html?service=wash-fold">Giặt & Gấp</a></li>
-                        <li><a href="booking.html?service=dry-cleaning">Giặt Khô</a></li>
-                        <li><a href="booking.html?service=ironing">Dịch Vụ Ủi</a></li>
-                        <li><a href="booking.html?service=pickup-delivery">Đón & Giao Hàng</a></li>
+                        <li><a th:href="@{/booking(service='wash-fold')}">Giặt & Gấp</a></li>
+                        <li><a th:href="@{/booking(service='dry-cleaning')}">Giặt Khô</a></li>
+                        <li><a th:href="@{/booking(service='ironing')}">Dịch Vụ Ủi</a></li>
+                        <li><a th:href="@{/booking(service='pickup-delivery')}">Đón & Giao Hàng</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -405,19 +405,29 @@
         </div>
     </footer>
 
-    <!-- Modal -->
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast-container" id="toast-container">
+        <!-- Notifications will be dynamically added here -->
+    </div>
+
+    <!-- Notification Modal -->
     <div class="modal" id="notification-modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
             <div class="modal-header">
-                <h3 id="modal-title">Thông báo</h3>
+                <h3 id="modal-title">Notification</h3>
+                <span class="modal-close">&times;</span>
             </div>
             <div class="modal-body" id="modal-body">
-                <p>Đây là tin nhắn thông báo.</p>
+                <!-- Content will be dynamically added here -->
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="modal-primary-btn">OK</button>
-                <button class="btn btn-secondary" id="modal-secondary-btn">Hủy</button>
+                <button id="modal-primary-btn" class="btn btn-primary">OK</button>
+                <button id="modal-secondary-btn" class="btn btn-secondary">Cancel</button>
             </div>
         </div>
     </div>
@@ -427,17 +437,12 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Loading Spinner -->
-    <div class="spinner-overlay" id="spinner">
-        <div class="spinner"></div>
-    </div>
-
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/search.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/testimonials.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/animations.js}"></script>
+    <script th:src="@{/js/search.js}"></script>
+    <script th:src="@{/js/auth.js}"></script>
+    <script th:src="@{/js/testimonials.js}"></script>
 </body>
 
 </html>
