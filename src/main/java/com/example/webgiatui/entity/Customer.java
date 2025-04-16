@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This entity has been deprecated as we're using the User entity instead.
+ * Will be removed in future versions.
+ * @deprecated Use {@link User} entity instead with appropriate role.
+ */
+@Deprecated(forRemoval = true)
 @Entity
 @Table(name = "customers")
 @Getter
