@@ -44,32 +44,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initialize dashboard
 function initDashboard() {
-    // Check if user is logged in
-    const user = getCurrentUser();
+    // Check if on dashboard page
+    if (!document.querySelector('.dashboard-section')) {
+        return;
+    }
     
-    // If on dashboard page
-    if (document.querySelector('.dashboard-section')) {
-        // Redirect if not logged in
-        if (!user) {
-            window.location.href = 'login.html?redirect=dashboard.html';
+    // Check if user is logged in using authService
+    if (typeof window.authService !== 'undefined' && typeof window.authService.isLoggedIn === 'function') {
+        if (!window.authService.isLoggedIn()) {
+            // Redirect to login page with proper path (no .html)
+            window.location.href = '/login?redirect=dashboard';
             return;
         }
         
-        // Update user name
-        document.getElementById('user-name').textContent = user.firstName;
+        // Get user data from authService
+        const user = window.authService.getCurrentUser();
+        if (user) {
+            // Update user name if element exists
+            const userNameElement = document.getElementById('user-name');
+            if (userNameElement) {
+                userNameElement.textContent = user.firstName || '';
+            }
+        }
+    } else {
+        // Fallback if authService not available
+        console.warn('Auth service not available, using fallback authentication check');
         
-        // Load user appointments
-        loadAppointments();
+        // Get user from localStorage directly
+        const userData = localStorage.getItem('user');
+        if (!userData) {
+            window.location.href = '/login?redirect=dashboard';
+            return;
+        }
         
-        // Load user orders
-        loadOrders();
-        
-        // Load user preferences
-        loadPreferences();
-        
-        // Initialize dashboard actions
-        initDashboardActions();
+        try {
+            const user = JSON.parse(userData);
+            // Update user name if element exists
+            const userNameElement = document.getElementById('user-name');
+            if (userNameElement && user) {
+                userNameElement.textContent = user.firstName || '';
+            }
+        } catch (error) {
+            console.error('Error parsing user data:', error);
+            window.location.href = '/login?redirect=dashboard';
+            return;
+        }
     }
+    
+    // Load dashboard data
+    loadAppointments();
+    loadOrders();
+    loadPreferences();
+    initDashboardActions();
 }
 
 // Load user appointments

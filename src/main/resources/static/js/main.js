@@ -19,8 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize tabs
   initTabs()
 
-  // Check if user is logged in
-  checkUserAuth()
+  // Check if user is logged in - we'll use the one from auth.js
+  // This is commented out since auth.js's checkUserAuth will handle it
+  // checkUserAuth()
 })
 
 // Mobile Navigation
@@ -357,24 +358,98 @@ function generateId(prefix = "") {
 
 // Check if user is logged in
 function checkUserAuth() {
-  const user = getCurrentUser()
-  const authButtons = document.getElementById("auth-buttons")
-  const userProfile = document.getElementById("user-profile")
+  // Call the auth.js version if it exists
+  if (typeof window.authService !== 'undefined' && typeof window.authService.updateAuthUI === 'function') {
+    window.authService.updateAuthUI();
+    return;
+  }
+  
+  // Fallback implementation if auth.js isn't loaded
+  const user = getCurrentUser();
+  const authButtons = document.getElementById("auth-buttons");
+  const userProfile = document.getElementById("user-profile");
 
   if (user) {
     // User is logged in
-    if (authButtons) authButtons.classList.add("hidden")
-    if (userProfile) userProfile.classList.remove("hidden")
+    if (authButtons) authButtons.classList.add("hidden");
+    if (userProfile) userProfile.classList.remove("hidden");
   } else {
     // User is not logged in
-    if (authButtons) authButtons.classList.remove("hidden")
-    if (userProfile) userProfile.classList.add("hidden")
+    if (authButtons) authButtons.classList.remove("hidden");
+    if (userProfile) userProfile.classList.add("hidden");
   }
 }
 
 // Get current user from localStorage
 function getCurrentUser() {
-  const userJson = localStorage.getItem("currentUser")
-  return userJson ? JSON.parse(userJson) : null
+  // Call the auth.js version if it exists
+  if (typeof window.authService !== 'undefined' && typeof window.authService.getCurrentUser === 'function') {
+    return window.authService.getCurrentUser();
+  }
+  
+  // Fallback implementation
+  const userJson = localStorage.getItem("user") || localStorage.getItem("currentUser");
+  return userJson ? JSON.parse(userJson) : null;
 }
+
+// Show toast notification
+function showToast(message, type = 'info', title = null) {
+  const toastContainer = document.getElementById('toast-container');
+  
+  if (!toastContainer) {
+    console.error('Toast container not found!');
+    return;
+  }
+  
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  
+  // Get proper icon based on type
+  let icon = 'info-circle';
+  if (type === 'success') icon = 'check-circle';
+  if (type === 'error') icon = 'exclamation-circle';
+  if (type === 'warning') icon = 'exclamation-triangle';
+  
+  // Set toast title if not provided
+  if (!title) {
+    if (type === 'success') title = 'Thành công';
+    if (type === 'error') title = 'Lỗi';
+    if (type === 'warning') title = 'Cảnh báo';
+    if (type === 'info') title = 'Thông báo';
+  }
+  
+  // Create toast content
+  toast.innerHTML = `
+    <div class="toast-icon">
+      <i class="fas fa-${icon}"></i>
+    </div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      <div class="toast-message">${message}</div>
+    </div>
+    <div class="toast-close">
+      <i class="fas fa-times"></i>
+    </div>
+  `;
+  
+  // Add toast to container
+  toastContainer.appendChild(toast);
+  
+  // Add event listener to close button
+  const closeBtn = toast.querySelector('.toast-close');
+  closeBtn.addEventListener('click', () => {
+    toast.remove();
+  });
+  
+  // Remove toast after 3 seconds
+  setTimeout(() => {
+    if (toast.parentElement) {
+      toast.remove();
+    }
+  }, 3000);
+}
+
+// Make showToast available globally
+window.showToast = showToast;
 

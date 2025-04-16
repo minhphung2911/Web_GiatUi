@@ -1,316 +1,353 @@
-// Authentication JavaScript
+/**
+ * Auth JavaScript
+ * Handles user authentication and UI updates based on auth state
+ */
 
-// Generate a unique ID
-function generateId(prefix = '') {
-    return prefix + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+// API endpoint for authentication
+const AUTH_API_BASE_URL = '/api/auth';
+
+/**
+ * Check if a user is currently logged in
+ * @returns {boolean} True if user is logged in, false otherwise
+ */
+function isLoggedIn() {
+    const userData = localStorage.getItem('user');
+    return userData !== null && userData !== undefined;
 }
 
-// Get current user from localStorage
+/**
+ * Get the current logged-in user data
+ * @returns {Object|null} User data or null if not logged in
+ */
 function getCurrentUser() {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
-}
-
-// Check if user is authenticated and redirect if not
-function checkUserAuth() {
-    if (!isLoggedIn()) {
-        // Redirect to login page if not logged in
-        window.location.href = 'login.html';
-    }
-}
-
-// Show a confirmation dialog
-function showConfirmation(title, message, callback) {
-    if (confirm(message)) {
-        callback();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize logout functionality
-    initLogout();
-    
-    // Check if user is logged in
-    checkUserAuth();
-});
-
-// Register a new user
-async function registerUser(userData) {
     try {
-        const response = await fetch('/register/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Registration failed');
-        }
-
-        // Handle successful registration
-        window.location.href = '/register?success';
+        const userData = localStorage.getItem('user');
+        return userData ? JSON.parse(userData) : null;
     } catch (error) {
-        // Display error message
-        document.getElementById('register-error').style.display = 'block';
-        document.getElementById('error-message').textContent = error.message;
+        console.error('Error parsing user data:', error);
+        return null;
     }
 }
 
-// Login user
+/**
+ * Update UI elements based on authentication state
+ */
+function updateAuthUI() {
+    const authButtons = document.getElementById('auth-buttons');
+    const userProfile = document.getElementById('user-profile');
+    
+    if (isLoggedIn()) {
+        // User is logged in
+        if (authButtons) authButtons.classList.add('hidden');
+        if (userProfile) {
+            userProfile.classList.remove('hidden');
+            
+            // Check if user has admin role
+            const user = getCurrentUser();
+            const isAdmin = user && user.roles && user.roles.some(role => role.name === 'ROLE_ADMIN');
+            
+            // Show/hide dashboard link based on user role
+            const dashboardLink = userProfile.querySelector('a[href="/dashboard"]');
+            if (dashboardLink) {
+                if (isAdmin) {
+                    dashboardLink.style.display = 'flex';
+                } else {
+                    dashboardLink.style.display = 'none';
+                }
+            }
+            
+            // Add user's name to profile dropdown if not already there
+            if (user) {
+                const userDropdown = document.querySelector('.user-profile .dropdown-menu');
+                if (userDropdown && !document.querySelector('.user-profile-name')) {
+                    // Create user name element at the top of dropdown
+                    const nameElement = document.createElement('div');
+                    nameElement.classList.add('user-profile-name');
+                    nameElement.textContent = `${user.firstName} ${user.lastName}`;
+                    nameElement.style.padding = '10px';
+                    nameElement.style.fontWeight = 'bold';
+                    nameElement.style.borderBottom = '1px solid #eee';
+                    nameElement.style.marginBottom = '5px';
+                    userDropdown.insertBefore(nameElement, userDropdown.firstChild);
+                }
+            }
+        }
+    } else {
+        // User is not logged in
+        if (authButtons) authButtons.classList.remove('hidden');
+        if (userProfile) userProfile.classList.add('hidden');
+    }
+}
+
+/**
+ * Handle user login
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @param {boolean} remember - Whether to remember the user
+ * @returns {Promise<Object>} Login result
+ */
 async function loginUser(email, password, remember = false) {
     try {
-        const response = await fetch('/api/auth/login', {
+        showSpinner();
+        
+        const response = await fetch(`${AUTH_API_BASE_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password, remember })
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                remember: remember
+            })
         });
-
+        
+        // Check for response status before trying to parse JSON
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Login failed');
+            let errorMessage = 'Đăng nhập thất bại';
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.message || errorMessage;
+            } catch (parseError) {
+                console.error('Error parsing error response:', parseError);
+            }
+            throw new Error(errorMessage);
         }
-
+        
         const data = await response.json();
-        localStorage.setItem('currentUser', JSON.stringify(data.user));
-        if (remember) {
-            localStorage.setItem('rememberToken', data.token);
+        
+        if (data.success) {
+            // Store user data and token if available
+            localStorage.setItem('user', JSON.stringify(data.user));
+            
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Check for redirect parameter in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectPath = urlParams.get('redirect');
+            
+            // Redirect to home page if no redirect specified, else redirect to specified path
+            if (redirectPath) {
+                // Make sure we're using the proper Spring MVC route (not .html)
+                const cleanPath = redirectPath.replace('.html', '');
+                window.location.href = `/${cleanPath}`;
+            } else if (window.location.pathname === '/login') {
+                // Chuyển hướng về trang chủ thay vì dashboard
+                window.location.href = '/';
+            }
+            
+            return data;
+        } else {
+            // Show error notification
+            showToast('Đăng nhập thất bại', data.message || 'Email hoặc mật khẩu không đúng', 'error');
+            return null;
         }
-        return true;
     } catch (error) {
         console.error('Login error:', error);
-        return false;
+        showToast('Lỗi', 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.', 'error');
+        return null;
+    } finally {
+        hideSpinner();
     }
 }
 
-// Logout user
+/**
+ * Handle user logout
+ */
 async function logoutUser() {
     try {
-        await fetch('/api/auth/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('rememberToken')}`
-            }
+        showSpinner();
+        
+        // Call logout API (optional, depends on backend implementation)
+        await fetch(`${AUTH_API_BASE_URL}/logout`, {
+            method: 'POST'
         });
+        
+        // Clear local storage
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        
+        // Update UI
+        updateAuthUI();
+        
+
+        
+        // Redirect to home page
+        window.location.href = '/';
     } catch (error) {
         console.error('Logout error:', error);
-    }
-    
-    // Clear local storage
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('rememberToken');
-    
-    // Redirect to home page
-    window.location.href = 'index.html';
-}
-
-// Initialize logout functionality
-function initLogout() {
-    const logoutBtn = document.getElementById('logout-btn');
-    
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            showConfirmation(
-                'Logout Confirmation',
-                'Are you sure you want to logout?',
-                function() {
-                    logoutUser();
-                }
-            );
-        });
+    } finally {
+        hideSpinner();
     }
 }
 
-// Update user profile
-function updateUserProfile(userData) {
-    // Get current user
-    const currentUser = getCurrentUser();
-    
-    if (!currentUser) {
-        return false;
-    }
-    
-    // Get all users
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    
-    // Find user index
-    const userIndex = users.findIndex(user => user.id === currentUser.id);
-    
-    if (userIndex === -1) {
-        return false;
-    }
-    
-    // Update user data
-    const updatedUser = {
-        ...users[userIndex],
-        ...userData,
-        updatedAt: new Date().toISOString()
-    };
-    
-    // Update users array
-    users[userIndex] = updatedUser;
-    
-    // Save to localStorage
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    
-    return true;
-}
-
-// Update user preferences
-function updateUserPreferences(preferences) {
-    // Get current user
-    const currentUser = getCurrentUser();
-    
-    if (!currentUser) {
-        return false;
-    }
-    
-    // Get all users
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    
-    // Find user index
-    const userIndex = users.findIndex(user => user.id === currentUser.id);
-    
-    if (userIndex === -1) {
-        return false;
-    }
-    
-    // Update user preferences
-    const updatedUser = {
-        ...users[userIndex],
-        preferences: {
-            ...users[userIndex].preferences,
-            ...preferences
-        },
-        updatedAt: new Date().toISOString()
-    };
-    
-    // Update users array
-    users[userIndex] = updatedUser;
-    
-    // Save to localStorage
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    
-    return true;
-}
-
-// Check if user is logged in
-function isLoggedIn() {
-    return !!getCurrentUser();
-}
-
-// Require authentication
+/**
+ * Require authentication for a page
+ * Redirects to login if not authenticated
+ */
 function requireAuth() {
     if (!isLoggedIn()) {
-        window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+        showToast('Yêu cầu đăng nhập', 'Vui lòng đăng nhập để truy cập trang này.', 'warning');
+        
+        // Create redirect parameter using the current path (without .html extension)
+        const currentPath = window.location.pathname.replace('/', '').replace('.html', '');
+        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
         return false;
     }
     return true;
 }
 
-// Initialize demo data
-function initDemoData() {
-    // Check if demo data already exists
-    if (localStorage.getItem('demoDataInitialized')) {
+/**
+ * Initialize auth-related elements and event listeners
+ */
+function initAuth() {
+    // Update UI based on auth state
+    updateAuthUI();
+    
+    // Kiểm tra nếu người dùng đã đăng nhập nhưng vẫn ở trang login, chuyển hướng về trang chủ
+    if (isLoggedIn() && window.location.pathname === '/login') {
+        window.location.href = '/';
         return;
     }
     
-    // Create demo users
-    const users = [
-        {
-            id: 'user_demo1',
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'john@example.com',
-            phone: '(123) 456-7890',
-            password: 'password123',
-            createdAt: new Date().toISOString(),
-            preferences: {
-                detergent: 'hypoallergenic',
-                fabricSoftener: true,
-                starchLevel: 'light',
-                deliveryTime: 'afternoon',
-                deliveryInstructions: 'Please call 10 minutes before arrival.',
-                emailNotifications: true,
-                smsNotifications: true,
-                promoEmails: false
+    // Login form handling if on login page
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Ngăn form tự submit
+            
+            try {
+                // Hiển thị spinner
+                showSpinner();
+                
+                // Lấy thông tin đăng nhập
+                const email = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const remember = document.getElementById('remember-me')?.checked || false;
+                
+                console.log("Đang thử đăng nhập với email:", email);
+                
+                // Gọi API đăng nhập
+                const result = await loginUser(email, password, remember);
+                
+                if (result && result.success) {
+                    console.log("Đăng nhập thành công, đang chuyển hướng...");
+                    // Chuyển hướng sẽ được thực hiện trong hàm loginUser
+                } else {
+                    hideSpinner();
+                    console.error("Đăng nhập thất bại:", result ? result.message : "Lỗi không xác định");
+                    
+                    // Hiển thị thông báo lỗi
+                    const errorBox = document.getElementById('login-error');
+                    const errorMessage = document.getElementById('error-message');
+                    
+                    if (errorBox && errorMessage) {
+                        errorMessage.textContent = result && result.message ? result.message : "Email hoặc mật khẩu không chính xác. Vui lòng thử lại.";
+                        errorBox.style.display = 'flex';
+                    } else {
+                        alert("Đăng nhập thất bại: " + (result && result.message ? result.message : "Email hoặc mật khẩu không chính xác"));
+                    }
+                }
+            } catch (error) {
+                hideSpinner();
+                console.error("Lỗi đăng nhập:", error);
+                
+                // Hiển thị thông báo lỗi
+                const errorBox = document.getElementById('login-error');
+                const errorMessage = document.getElementById('error-message');
+                
+                if (errorBox && errorMessage) {
+                    errorMessage.textContent = error.message || "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.";
+                    errorBox.style.display = 'flex';
+                } else {
+                    alert("Lỗi đăng nhập: " + (error.message || "Không xác định"));
+                }
             }
-        }
-    ];
+        });
+    }
     
-    // Create demo appointments
-    const appointments = [
-        {
-            id: 'appt_demo1',
-            userId: 'user_demo1',
-            service: 'wash-fold',
-            date: '2023-07-15',
-            time: '10:00',
-            status: 'upcoming',
-            notes: 'Please use fragrance-free detergent',
-            items: '8 shirts, 2 pants, 5 towels',
-            price: 45.00,
-            createdAt: new Date().toISOString()
-        },
-        {
-            id: 'appt_demo2',
-            userId: 'user_demo1',
-            service: 'dry-cleaning',
-            date: '2023-07-20',
-            time: '14:00',
-            status: 'upcoming',
-            notes: '',
-            items: '1 suit, 3 dresses, 2 jackets',
-            price: 75.50,
-            createdAt: new Date().toISOString()
-        }
-    ];
-    
-    // Create demo orders
-    const orders = [
-        {
-            id: 'ord_demo1',
-            userId: 'user_demo1',
-            service: 'ironing',
-            date: '2023-07-01',
-            time: '13:00',
-            status: 'completed',
-            notes: 'Extra starch on dress shirts',
-            items: '12 shirts, 3 pants',
-            price: 35.00,
-            createdAt: '2023-07-01T13:00:00Z',
-            completedAt: '2023-07-02T15:00:00Z'
-        },
-        {
-            id: 'ord_demo2',
-            userId: 'user_demo1',
-            service: 'premium',
-            date: '2023-06-20',
-            time: '11:00',
-            status: 'completed',
-            notes: 'Hypoallergenic washing preferred',
-            items: 'Winter bedding, 4 comforters, 8 pillows',
-            price: 120.00,
-            createdAt: '2023-06-20T11:00:00Z',
-            completedAt: '2023-06-22T14:00:00Z'
-        }
-    ];
-    
-    // Save to localStorage
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('appointments', JSON.stringify(appointments));
-    localStorage.setItem('orders', JSON.stringify(orders));
-    localStorage.setItem('demoDataInitialized', 'true');
+    // Logout button handling
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+        });
+    }
 }
 
-// Initialize demo data on page load
-initDemoData();
+/**
+ * Show notification (fallback if not defined elsewhere)
+ */
+function showToast(message, type = 'info', title = null) {
+    // Check if the global showToast is a different function than this one
+    if (typeof window.showToast === 'function' && window.showToast !== showToast) {
+        window.showToast(message, type, title);
+        return;
+    }
+    
+    // Fallback to alert if no toast function available
+    alert(`${title || type}: ${message}`);
+}
+
+/**
+ * Show loading spinner (fallback if not defined elsewhere)
+ */
+function showSpinner() {
+    // Check if we're trying to use a function other than this one
+    // We need to check if the function exists and isn't this one
+    if (typeof window.showSpinner === 'function' && window.showSpinner !== showSpinner) {
+        window.showSpinner();
+        return;
+    }
+    
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        spinner.classList.add('active');
+    }
+}
+
+/**
+ * Hide loading spinner (fallback if not defined elsewhere)
+ */
+function hideSpinner() {
+    // Check if we're trying to use a function other than this one
+    // We need to check if the function exists and isn't this one
+    if (typeof window.hideSpinner === 'function' && window.hideSpinner !== hideSpinner) {
+        window.hideSpinner();
+        return;
+    }
+    
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        spinner.classList.remove('active');
+    }
+}
+
+// Initialize auth functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', initAuth);
+
+// Export functions for use in other scripts
+window.authService = {
+    isLoggedIn,
+    getCurrentUser,
+    loginUser,
+    logoutUser,
+    requireAuth,
+    updateAuthUI,
+    showToastMessage: function(message, type, title) {
+        // Use our fixed showToast function but avoid recursion
+        const alertMsg = `${title || type || ''}: ${message}`;
+        if (type === 'error') {
+            console.error(alertMsg);
+        } else {
+            console.log(alertMsg);
+        }
+        alert(alertMsg);
+    }
+}; 

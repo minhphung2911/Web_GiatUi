@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Đơn Hàng - Dịch Vụ Giặt Là Fresh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/animation.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        /* Order-specific styles */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .status-pending {
+            background-color: #ffc107;
+        }
+        
+        .status-washing {
+            background-color: #17a2b8;
+        }
+        
+        .status-completed {
+            background-color: #28a745;
+        }
+        
+        .orders-table th, .orders-table td {
+            padding: 10px;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .filter-controls {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        
+        .filter-controls select, .filter-controls input {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a th:href="@{/}" class="logo">Fresh<span>Laundry</span></a>
+                <ul class="nav-links">
+                    <li><a th:href="@{/}">Trang Chủ</a></li>
+                    <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                    <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                    <li><a th:href="@{/#contact}">Liên Hệ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div id="auth-buttons" class="auth-buttons">
+                        <a th:href="@{/login}" class="btn btn-login">Đăng Nhập</a>
+                        <a th:href="@{/register}" class="btn btn-primary">Đăng Ký</a>
+                    </div>
+                    <div id="user-profile" class="user-profile hidden">
+                        <div class="user-profile-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a th:href="@{/dashboard}"><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển</a>
+                            <a th:href="@{/profile}"><i class="fas fa-user-edit"></i> Hồ Sơ</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-container">
+                <!-- Sidebar -->
+                <div class="dashboard-sidebar">
+                    <div class="sidebar-header">
+                        <h3>Quản Lý Tài Khoản</h3>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li><a th:href="@{/dashboard}"><i class="fas fa-tachometer-alt"></i> Tổng Quan</a></li>
+                        <li class="active"><a th:href="@{/orders}"><i class="fas fa-shopping-basket"></i> Đơn Hàng</a></li>
+                        <li><a th:href="@{/profile}"><i class="fas fa-user-edit"></i> Hồ Sơ</a></li>
+                        <li><a th:href="@{/booking}"><i class="fas fa-calendar-plus"></i> Đặt Lịch Mới</a></li>
+                    </ul>
+                </div>
+
+                <!-- Main Content -->
+                <div class="dashboard-content">
+                    <div class="dashboard-header">
+                        <h2>Quản Lý Đơn Hàng</h2>
+                        <div class="dashboard-actions">
+                            <a th:href="@{/booking}" class="btn btn-primary"><i class="fas fa-plus"></i> Đặt Lịch Mới</a>
+                        </div>
+                    </div>
+
+                    <!-- Order Filters -->
+                    <div class="orders-filters">
+                        <div class="filter-group">
+                            <label for="status-filter">Trạng thái:</label>
+                            <select id="status-filter">
+                                <option value="all">Tất cả</option>
+                                <option value="PENDING">Chờ Xử Lý</option>
+                                <option value="WASHING">Đang Giặt</option>
+                                <option value="COMPLETED">Hoàn Tất</option>
+                            </select>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" id="search-order" placeholder="Tìm kiếm theo mã đơn hàng...">
+                            <button id="search-button"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Orders Table -->
+                    <div class="orders-table-container">
+                        <table class="orders-table" id="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã Đơn</th>
+                                    <th>Dịch Vụ</th>
+                                    <th>Ngày Đặt</th>
+                                    <th>Ngày Trả</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Giá Tiền</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table-body">
+                                <!-- Orders will be loaded here by JavaScript -->
+                                <tr class="placeholder-row">
+                                    <td colspan="7" class="text-center">Đang tải dữ liệu...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="orders-pagination">
+                        <button id="prev-page" class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                        <div id="page-numbers" class="page-numbers">
+                            <span class="page-number active">1</span>
+                        </div>
+                        <button id="next-page" class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="order-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi Tiết Đơn Hàng</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="order-details">
+                    <div class="order-info">
+                        <h4>Thông Tin Đơn Hàng</h4>
+                        <div class="info-group">
+                            <span class="info-label">Mã Đơn Hàng:</span>
+                            <span class="info-value" id="detail-order-code"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Dịch Vụ:</span>
+                            <span class="info-value" id="detail-service"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Cân Nặng:</span>
+                            <span class="info-value" id="detail-weight"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Ngày Đặt:</span>
+                            <span class="info-value" id="detail-received-date"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Ngày Trả:</span>
+                            <span class="info-value" id="detail-return-date"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Trạng Thái:</span>
+                            <span class="info-value status-badge" id="detail-status"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Ghi Chú:</span>
+                            <span class="info-value" id="detail-note"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Đóng</button>
+                <button class="btn btn-danger" id="cancel-order-btn">Hủy Đơn Hàng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Cancel Order Modal -->
+    <div class="modal" id="confirm-cancel-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Xác Nhận Hủy Đơn Hàng</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn hủy đơn hàng này không?</p>
+                <p>Lưu ý: Đơn hàng đã ở trạng thái <b>Đang Giặt</b> hoặc <b>Hoàn Tất</b> không thể hủy.</p>
+                <div class="form-group">
+                    <label for="cancel-reason">Lý do hủy đơn:</label>
+                    <textarea id="cancel-reason" placeholder="Vui lòng cho biết lý do hủy đơn hàng"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Trở Lại</button>
+                <button class="btn btn-danger" id="confirm-cancel-btn">Xác Nhận Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content compact">
+                <div class="footer-section">
+                    <h3>Fresh Laundry</h3>
+                    <p>Dịch vụ giặt là chuyên nghiệp cho mọi nhu cầu của bạn.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Kết Nhanh</h3>
+                    <ul class="footer-links">
+                        <li><a th:href="@{/}">Trang Chủ</a></li>
+                        <li><a th:href="@{/#services}">Dịch Vụ</a></li>
+                        <li><a th:href="@{/#pricing}">Bảng Giá</a></li>
+                        <li><a th:href="@{/#contact}">Liên Hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên Hệ</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Đường Giặt Là, Thành phố Sạch</p>
+                    <p><i class="fas fa-phone"></i> (028) 1234-5678</p>
+                    <p><i class="fas fa-envelope"></i> info@freshlaundry.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Fresh Laundry. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/animations.js}"></script>
+    <script th:src="@{/js/auth.js}"></script>
+    <script th:src="@{/js/order-service.js}"></script>
+    <script th:src="@{/js/orders.js}"></script>
+</body>
+
+</html> 
