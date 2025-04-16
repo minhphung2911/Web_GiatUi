@@ -22,7 +22,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @GetMapping("index")
+    @GetMapping("/")
     public String home() {
         return "index";
     }
@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     // handler method to handle user registration request
-    @GetMapping("register")
+    @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         UserDto user = new UserDto();
         model.addAttribute("user", user);
