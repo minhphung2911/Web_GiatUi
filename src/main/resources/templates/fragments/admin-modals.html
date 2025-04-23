@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Service Modals -->
+<div th:fragment="service-modals">
+    <!-- Service Modal (Add/Edit) -->
+    <div id="service-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="service-modal-title">Thêm Dịch Vụ Mới</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="service-form">
+                    <input type="hidden" name="id" id="service-id">
+                    
+                    <div class="form-group">
+                        <label for="service-name">Tên Dịch Vụ</label>
+                        <input type="text" id="service-name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service-description">Mô Tả</label>
+                        <textarea id="service-description" name="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service-price">Giá (VNĐ/kg)</label>
+                        <input type="number" id="service-price" name="price" class="form-control" min="0" step="1000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service-image">URL Hình Ảnh</label>
+                        <input type="text" id="service-image" name="imageUrl" class="form-control">
+                    </div>
+                    
+                    <div class="form-check">
+                        <input type="checkbox" id="service-active" name="active" class="form-check-input" checked>
+                        <label for="service-active" class="form-check-label">Hoạt Động</label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary close-modal">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Service Details Modal -->
+    <div id="service-details-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi Tiết Dịch Vụ</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="service-details">
+                    <div class="service-details-header">
+                        <div class="service-image">
+                            <img id="service-detail-image" src="/img/services/default.jpg" alt="Hình ảnh dịch vụ">
+                        </div>
+                        <div class="service-info">
+                            <h4 id="service-detail-name">Tên Dịch Vụ</h4>
+                            <span id="service-detail-status" class="status-badge completed">Hoạt Động</span>
+                            <p class="service-price">Giá: <span id="service-detail-price">50.000 ₫</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="service-description">
+                        <h5>Mô Tả</h5>
+                        <p id="service-detail-description">Mô tả dịch vụ.</p>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary edit-service" id="service-detail-edit">Chỉnh Sửa</button>
+                        <button type="button" class="btn btn-secondary close-modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Customer Modals -->
+<div th:fragment="customer-modals">
+    <!-- Customer Modal (Add/Edit) -->
+    <div id="customer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="customer-modal-title">Thêm Khách Hàng Mới</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="customer-form">
+                    <input type="hidden" name="id" id="customer-id">
+                    
+                    <div class="form-group">
+                        <label for="customer-name">Họ và Tên</label>
+                        <input type="text" id="customer-name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-email">Email</label>
+                        <input type="email" id="customer-email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-password">Mật Khẩu</label>
+                        <input type="password" id="customer-password" name="password" class="form-control" placeholder="Để trống nếu không thay đổi">
+                        <small class="form-text text-muted">Mật khẩu phải có ít nhất 6 ký tự.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-phone">Số Điện Thoại</label>
+                        <input type="text" id="customer-phone" name="phoneNumber" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-address">Địa Chỉ</label>
+                        <textarea id="customer-address" name="address" class="form-control" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-avatar">URL Avatar</label>
+                        <input type="text" id="customer-avatar" name="avatar" class="form-control">
+                    </div>
+                    
+                    <div class="form-check">
+                        <input type="checkbox" id="customer-active" name="active" class="form-check-input" checked>
+                        <label for="customer-active" class="form-check-label">Hoạt Động</label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary close-modal">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Customer Details Modal -->
+    <div id="customer-details-modal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3>Chi Tiết Khách Hàng</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="customer-details">
+                    <div class="customer-details-header">
+                        <div class="customer-avatar">
+                            <img id="customer-detail-avatar" src="/img/default-avatar.svg" alt="Avatar khách hàng">
+                        </div>
+                        <div class="customer-info">
+                            <h4 id="customer-detail-name">Tên Khách Hàng</h4>
+                            <p><i class="fas fa-envelope"></i> <span id="customer-detail-email">email@example.com</span></p>
+                            <p><i class="fas fa-phone"></i> <span id="customer-detail-phone">0123456789</span></p>
+                            <p><i class="fas fa-map-marker-alt"></i> <span id="customer-detail-address">Địa chỉ khách hàng</span></p>
+                            <span id="customer-detail-status" class="status-badge completed">Hoạt Động</span>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-booking-history">
+                        <h5>Lịch Sử Đặt Hàng</h5>
+                        <div id="customer-booking-history">
+                            <p class="text-center">Đang tải lịch sử đặt hàng...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary edit-customer" id="customer-detail-edit">Chỉnh Sửa</button>
+                        <button type="button" class="btn btn-secondary close-modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Modals -->
+<div th:fragment="booking-modals">
+    <!-- Booking Modal (Add/Edit) -->
+    <div id="booking-modal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 id="booking-modal-title">Thêm Đặt Lịch Mới</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="booking-form">
+                    <input type="hidden" name="id" id="booking-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="booking-user-id">Khách Hàng (ID)</label>
+                            <input type="text" id="booking-user-id" name="userId" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label for="booking-service">Dịch Vụ</label>
+                            <select id="booking-service" name="serviceId" class="form-control service-dropdown" required>
+                                <option value="">-- Chọn dịch vụ --</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="booking-weight">Cân Nặng (kg)</label>
+                            <input type="number" id="booking-weight" name="weight" class="form-control" step="0.1" min="0">
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label for="booking-pickup-date">Ngày Lấy Hàng</label>
+                            <input type="datetime-local" id="booking-pickup-date" name="pickupDate" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booking-address">Địa Chỉ</label>
+                        <textarea id="booking-address" name="address" class="form-control" rows="2" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booking-notes">Ghi Chú</label>
+                        <textarea id="booking-notes" name="notes" class="form-control" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="booking-status">Trạng Thái</label>
+                            <select id="booking-status" name="status" class="form-control">
+                                <option value="PENDING">Đang Chờ</option>
+                                <option value="PROCESSING">Đang Xử Lý</option>
+                                <option value="COMPLETED">Hoàn Thành</option>
+                                <option value="CANCELLED">Đã Hủy</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-md-4">
+                            <label for="booking-payment-status">Trạng Thái Thanh Toán</label>
+                            <select id="booking-payment-status" name="paymentStatus" class="form-control">
+                                <option value="PENDING">Chưa Thanh Toán</option>
+                                <option value="PAID">Đã Thanh Toán</option>
+                                <option value="CANCELLED">Đã Hủy</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-md-4">
+                            <label for="booking-payment-method">Phương Thức Thanh Toán</label>
+                            <select id="booking-payment-method" name="paymentMethod" class="form-control">
+                                <option value="CASH">Tiền Mặt</option>
+                                <option value="BANK_TRANSFER">Chuyển Khoản</option>
+                                <option value="MOMO">Ví MoMo</option>
+                                <option value="ZALOPAY">ZaloPay</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary close-modal">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Booking Details Modal -->
+    <div id="booking-details-modal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3>Chi Tiết Đặt Lịch</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="booking-details">
+                    <div class="booking-details-header">
+                        <div class="booking-info">
+                            <h4>Mã đơn: <span id="booking-detail-code">BK12345</span></h4>
+                            <p>Khách hàng: <strong id="booking-detail-customer">Nguyễn Văn A</strong></p>
+                            <p>Dịch vụ: <strong id="booking-detail-service">Giặt ủi tiêu chuẩn</strong></p>
+                            <p>Cân nặng: <strong id="booking-detail-weight">2.5 kg</strong></p>
+                            <p>Tổng tiền: <strong id="booking-detail-price">125.000 ₫</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-status-container">
+                        <div class="booking-status-item">
+                            <h5>Trạng Thái Đơn Hàng</h5>
+                            <span id="booking-detail-status" class="status-badge processing">Đang Xử Lý</span>
+                            <div class="status-actions">
+                                <button class="btn btn-sm btn-outline-warning change-status-btn" data-status="PENDING">Đang Chờ</button>
+                                <button class="btn btn-sm btn-outline-info change-status-btn" data-status="PROCESSING">Đang Xử Lý</button>
+                                <button class="btn btn-sm btn-outline-success change-status-btn" data-status="COMPLETED">Hoàn Thành</button>
+                                <button class="btn btn-sm btn-outline-danger change-status-btn" data-status="CANCELLED">Hủy</button>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-status-item">
+                            <h5>Trạng Thái Thanh Toán</h5>
+                            <span id="booking-detail-payment-status" class="status-badge pending">Chưa Thanh Toán</span>
+                            <div class="status-actions">
+                                <button class="btn btn-sm btn-outline-warning change-payment-status-btn" data-status="PENDING">Chưa Thanh Toán</button>
+                                <button class="btn btn-sm btn-outline-success change-payment-status-btn" data-status="PAID">Đã Thanh Toán</button>
+                                <button class="btn btn-sm btn-outline-danger change-payment-status-btn" data-status="CANCELLED">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-details-info">
+                        <div class="booking-details-column">
+                            <h5>Thông Tin Đặt Lịch</h5>
+                            <p>Ngày đặt lịch: <span id="booking-detail-booking-date">01/01/2023 10:30</span></p>
+                            <p>Ngày lấy hàng: <span id="booking-detail-pickup">02/01/2023 14:00</span></p>
+                            <p>Ngày giao hàng: <span id="booking-detail-delivery">04/01/2023 14:00</span></p>
+                            <p>Phương thức thanh toán: <span id="booking-detail-payment-method">Tiền mặt</span></p>
+                        </div>
+                        
+                        <div class="booking-details-column">
+                            <h5>Địa Chỉ & Ghi Chú</h5>
+                            <p>Địa chỉ: <span id="booking-detail-address">123 Đường ABC, Quận XYZ, TP.HCM</span></p>
+                            <p>Ghi chú: <span id="booking-detail-notes">Giao hàng vào buổi chiều, sau 5h chiều.</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary edit-booking" id="booking-detail-edit">Chỉnh Sửa</button>
+                        <button type="button" class="btn btn-secondary close-modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html> 

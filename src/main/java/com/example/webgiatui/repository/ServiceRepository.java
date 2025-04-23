@@ -10,8 +10,17 @@ import java.util.List;
 public interface ServiceRepository extends JpaRepository<Service, Long> {
     
     /**
-     * Find services by name containing the given string (case-insensitive)
+     * Find services by name containing the given pattern (case-insensitive)
      */
-    List<Service> findByNameContaining(String name);
+    List<Service> findByNameContainingIgnoreCase(String name);
     
+    /**
+     * Find service by exact name (case-insensitive)
+     */
+    Service findByNameIgnoreCase(String name);
+    
+    /**
+     * Find active services
+     */
+    List<Service> findByStatus(Service.Status status);
 }

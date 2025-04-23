@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,202 @@
     <link rel="stylesheet" th:href="@{/css/animation.css}">
     <link rel="stylesheet" th:href="@{/css/auth.css}">
     <link rel="stylesheet" th:href="@{/css/forms.css}">
+    <style>
+        .register-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .register-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .register-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .register-header p {
+            color: #7f8c8d;
+            margin-bottom: 0;
+        }
+        .register-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+        }
+        .register-footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form elements */
+        .form-row {
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        .input-group {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .input-group-text {
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #ddd;
+            color: #6c757d;
+        }
+        .form-control {
+            flex: 1;
+            height: 45px;
+            padding: 10px 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+        }
+        .form-text {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .btn-outline-secondary {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #ddd;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #e9ecef;
+        }
+        .btn-register {
+            height: 45px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        /* Checkbox */
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-check-input {
+            margin-right: 10px;
+        }
+        .form-check-label {
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        /* Alert styles */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .d-none {
+            display: none;
+        }
+        .alert-dismissible {
+            position: relative;
+        }
+        .btn-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            color: inherit;
+        }
+        
+        /* Password toggle */
+        #togglePassword {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0 15px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .register-container {
+                margin: 30px 15px;
+                padding: 20px;
+            }
+        }
+        
+        /* Strength bar */
+        .password-strength {
+            margin-top: 5px;
+        }
+        .strength-bar {
+            height: 5px;
+            background-color: #e9ecef;
+            border-radius: 2px;
+            margin-bottom: 5px;
+        }
+        .strength-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s, background-color 0.3s;
+        }
+        .strength-text {
+            font-size: 12px;
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,114 +233,90 @@
     <!-- Register Section -->
     <section class="auth-section">
         <div class="container">
-            <div class="auth-container fade-in">
-                <div class="auth-card">
-                    <div class="auth-header">
-                        <h2>Tạo Tài Khoản</h2>
-                        <p>Tham gia dịch vụ giặt ủi của chúng tôi và tận hưởng các lợi ích</p>
-                    </div>
-                    <div class="auth-body">
-                        <div class="alert-box error-alert" id="register-error" th:if="${param.error}">
-                            <i class="fas fa-exclamation-circle"></i>
-                            <span id="error-message">Có lỗi xảy ra khi đăng ký. Vui lòng thử lại.</span>
-                        </div>
-                        <div class="alert-box success-alert" th:if="${param.success}">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Đăng ký thành công! Bạn có thể <a th:href="@{/login}">đăng nhập</a> ngay bây giờ.</span>
-                        </div>
-                        <form id="register-form" th:action="@{/register/save}" method="post" th:object="${user}">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="firstName">Tên</label>
-                                    <div class="input-icon">
-                                        <i class="fas fa-user"></i>
-                                        <input type="text" id="firstName" name="firstName" placeholder="Văn" required th:field="*{firstName}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName">Họ</label>
-                                    <div class="input-icon">
-                                        <i class="fas fa-user"></i>
-                                        <input type="text" id="lastName" name="lastName" placeholder="Nguyễn" required th:field="*{lastName}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <div class="input-icon">
-                                    <i class="fas fa-envelope"></i>
-                                    <input type="email" id="email" name="email" placeholder="ten@example.com" required th:field="*{email}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="phoneNumber">Số Điện Thoại</label>
-                                <div class="input-icon">
-                                    <i class="fas fa-phone"></i>
-                                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="0912 345 678" th:field="*{phoneNumber}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Mật Khẩu</label>
-                                <div class="input-icon">
-                                    <i class="fas fa-lock"></i>
-                                    <input type="password" id="password" name="password" placeholder="Tạo mật khẩu"
-                                        required th:field="*{password}">
-                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
-                                </div>
-                                <div class="password-strength" id="password-strength">
-                                    <div class="strength-bar">
-                                        <div class="strength-bar-fill" id="strength-bar-fill"></div>
-                                    </div>
-                                    <div class="strength-text" id="strength-text">Độ mạnh mật khẩu: <span>Yếu</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm-password">Xác Nhận Mật Khẩu</label>
-                                <div class="input-icon">
-                                    <i class="fas fa-lock"></i>
-                                    <input type="password" id="confirm-password" name="confirmPassword"
-                                        placeholder="Xác nhận mật khẩu của bạn" required>
-                                    <button type="button" class="toggle-password-confirm"><i class="fas fa-eye"></i></button>
-                                </div>
-                            </div>
-                            <div class="terms-agreement">
-                                <label class="checkbox-container">
-                                    <input type="checkbox" id="terms" name="terms" required>
-                                    <span class="checkmark"></span>
-                                    Tôi đồng ý với <a href="#">Điều Khoản Dịch Vụ</a> và <a href="#">Chính Sách Bảo
-                                        Mật</a>
-                                </label>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block" id="register-button">
-                                <span>Tạo Tài Khoản</span>
-                            </button>
-                        </form>
-                        <div class="auth-separator">
-                            <span>HOẶC</span>
-                        </div>
-                        <div class="social-login">
-                            <button class="btn btn-google">
-                                <i class="fab fa-google"></i> Tiếp tục với Google
-                            </button>
-                            <button class="btn btn-facebook">
-                                <i class="fab fa-facebook-f"></i> Tiếp tục với Facebook
-                            </button>
-                        </div>
-                    </div>
-                    <div class="auth-footer">
-                        <p>Đã có tài khoản? <a th:href="@{/login}">Đăng Nhập</a></p>
-                    </div>
+            <div class="register-container">
+                <div class="register-header">
+                    <h2>Đăng Ký Tài Khoản</h2>
+                    <p>Tạo tài khoản mới để sử dụng dịch vụ giặt ủi</p>
                 </div>
-                <div class="auth-image slide-in-right">
-                    <img src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="Dịch Vụ Giặt Ủi">
-                    <div class="auth-image-overlay">
-                        <h3>Tham Gia Fresh Laundry Ngay Hôm Nay</h3>
-                        <p>Tạo tài khoản để quản lý đơn hàng, theo dõi quá trình giặt ủi và tận hưởng các ưu đãi độc
-                            quyền.
-                        </p>
+                
+                <div id="register-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+                    <span id="register-alert-message">Thông báo lỗi sẽ hiển thị ở đây</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <form id="register-form" th:action="@{/register/save}" method="post" th:object="${user}">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Họ và tên</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập họ và tên" required th:field="*{name}">
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn" required th:field="*{email}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu" required th:field="*{password}">
+                            <button class="btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">Mật khẩu phải có ít nhất 6 ký tự</div>
+                        
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-bar-fill" id="strength-bar-fill" style="width: 0%;"></div>
+                            </div>
+                            <div class="strength-text" id="strength-text">
+                                <span>Yếu</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber" class="form-label">Số điện thoại</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại" th:field="*{phoneNumber}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-home"></i></span>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ của bạn" th:field="*{address}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms" required>
+                        <label class="form-check-label" for="agreeTerms">Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a></label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-register">Đăng Ký</button>
+                </form>
+                
+                <div class="register-footer">
+                    <p>Đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
+                    <p><a th:href="@{/}">Quay lại trang chủ</a></p>
                 </div>
             </div>
         </div>
@@ -196,17 +368,18 @@
     </div>
 
     <!-- JavaScript -->
-    <script th:src="@{/js/main.js}"></script>
-    <script th:src="@{/js/animation.js}"></script>
-    <script th:src="@{/js/auth.js}"></script>
+    <script th:src="@{/js/animations.js}"></script>
+    <script th:src="@{/js/api-service.js}"></script>
+    <script src="/js/user-auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Password strength meter
             const passwordInput = document.getElementById('password');
             const strengthBarFill = document.getElementById('strength-bar-fill');
             const strengthText = document.getElementById('strength-text').querySelector('span');
-            const confirmPassword = document.getElementById('confirm-password');
+            const confirmPassword = document.getElementById('confirmPassword');
             const registerForm = document.getElementById('register-form');
+            const togglePasswordBtn = document.getElementById('togglePassword');
 
             if (passwordInput) {
                 passwordInput.addEventListener('input', function () {
@@ -249,7 +422,7 @@
                         return false;
                     }
                     
-                    if (!document.getElementById('terms').checked) {
+                    if (!document.getElementById('agreeTerms').checked) {
                         e.preventDefault();
                         showToast('Bạn phải đồng ý với Điều Khoản Dịch Vụ và Chính Sách Bảo Mật', 'warning');
                         return false;
@@ -258,9 +431,8 @@
             }
 
             // Toggle password visibility
-            const togglePassword = document.querySelector('.toggle-password');
-            if (togglePassword) {
-                togglePassword.addEventListener('click', function () {
+            if (togglePasswordBtn) {
+                togglePasswordBtn.addEventListener('click', function () {
                     const password = document.getElementById('password');
                     const eyeIcon = this.querySelector('i');
                     if (password.type === 'password') {
@@ -269,24 +441,6 @@
                         eyeIcon.classList.add('fa-eye-slash');
                     } else {
                         password.type = 'password';
-                        eyeIcon.classList.remove('fa-eye-slash');
-                        eyeIcon.classList.add('fa-eye');
-                    }
-                });
-            }
-            
-            // Toggle confirm password visibility
-            const toggleConfirmPassword = document.querySelector('.toggle-password-confirm');
-            if (toggleConfirmPassword) {
-                toggleConfirmPassword.addEventListener('click', function () {
-                    const confirmPassword = document.getElementById('confirm-password');
-                    const eyeIcon = this.querySelector('i');
-                    if (confirmPassword.type === 'password') {
-                        confirmPassword.type = 'text';
-                        eyeIcon.classList.remove('fa-eye');
-                        eyeIcon.classList.add('fa-eye-slash');
-                    } else {
-                        confirmPassword.type = 'password';
                         eyeIcon.classList.remove('fa-eye-slash');
                         eyeIcon.classList.add('fa-eye');
                     }

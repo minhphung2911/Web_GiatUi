@@ -3,12 +3,19 @@
     --primary-color: #4ecdc4;
     --primary-dark: #33b5ac;
     --secondary-color: #ff6b6b;
+    --success-color: #06d6a0;
+    --warning-color: #ffd166;
+    --danger-color: #ef476f;
+    --info-color: #118ab2;
     --text-color: #333;
     --text-light: #777;
+    --text-muted: #999;
     --bg-color: #f8f9fa;
-    --white: #ffffff;
+    --bg-light: #ffffff;
+    --bg-dark: #343a40;
     --border-color: #e0e0e0;
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
 }
 
@@ -20,13 +27,14 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    background-color: var(--bg-color);
+    background-color: #f0f5f9;
     color: var(--text-color);
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 .admin-login-container {

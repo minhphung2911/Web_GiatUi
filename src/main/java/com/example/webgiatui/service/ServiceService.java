@@ -3,40 +3,44 @@ package com.example.webgiatui.service;
 import com.example.webgiatui.entity.Service;
 import java.util.List;
 
-public interface ServiceService extends GenericService<Service> {
+public interface ServiceService {
     
     /**
-     * Find all services in the system
+     * Find all services
+     * @return list of all services
      */
-    @Override
-    List<Service> getAll();
+    List<Service> findAll();
     
     /**
-     * Create a new service
+     * Find all active services
+     * @return list of all active services
      */
-    @Override
-    Service create(Service service);
+    List<Service> findAllActive();
     
     /**
-     * Get service by ID
+     * Find service by id
+     * @param id service id
+     * @return service if found, null otherwise
      */
-    @Override
-    Service getById(Long id);
+    Service findById(Long id);
     
     /**
-     * Update an existing service
+     * Find service by name
+     * @param name service name
+     * @return service if found, null otherwise
      */
-    @Override
-    Service update(Long id, Service service);
+    Service findByName(String name);
+    
+    /**
+     * Save or update a service
+     * @param service service to save or update
+     * @return saved or updated service
+     */
+    Service save(Service service);
     
     /**
      * Delete a service
+     * @param id service id
      */
-    @Override
     void delete(Long id);
-    
-    /**
-     * Find services by name
-     */
-    List<Service> findByName(String name);
 } 

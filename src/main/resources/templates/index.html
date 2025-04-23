@@ -21,6 +21,7 @@
                     <li><a href="#services">Dịch vụ</a></li>
                     <li><a href="#pricing">Bảng giá</a></li>
                     <li><a href="#contact">Liên hệ</a></li>
+                    <li><a th:href="@{/admin-dashboard}" class="admin-link">Admin</a></li>
                     <li class="nav-search">
                         <div class="search-container">
                             <input type="text" id="search-input" placeholder="Tìm kiếm dịch vụ...">
@@ -41,6 +42,7 @@
                         <div class="dropdown-menu">
                             <a th:href="@{/dashboard}"><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</a>
                             <a th:href="@{/profile}"><i class="fas fa-user-edit"></i> Hồ sơ</a>
+                            <a th:href="@{/admin-dashboard}"><i class="fas fa-user-shield"></i> Trang quản trị</a>
                             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                         </div>
                     </div>
@@ -437,12 +439,12 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- JavaScript -->
-    <script th:src="@{/js/main.js}"></script>
+    <!-- Scripts -->
+    <script th:src="@{/js/api-service.js}"></script>
     <script th:src="@{/js/animations.js}"></script>
-    <script th:src="@{/js/search.js}"></script>
-    <script th:src="@{/js/auth.js}"></script>
-    <script th:src="@{/js/testimonials.js}"></script>
+    <script th:src="@{/js/utils.js}"></script>
+    <script th:src="@{/js/user-auth.js}"></script>
+    <script th:src="@{/js/home.js}"></script>
 </body>
 
 </html>

@@ -299,54 +299,50 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.95);
-    display: flex;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: var(--transition);
-}
-
-.booking-success.active {
-    opacity: 1;
-    visibility: visible;
+    z-index: 9999;
 }
 
 .success-content {
-    text-align: center;
-    padding: 40px;
-    background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-hover);
+    background-color: #fff;
+    border-radius: 8px;
     max-width: 500px;
-    animation: scaleIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    width: 90%;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    animation: fade-in-scale 0.5s ease;
 }
 
 .success-icon {
-    width: 80px;
-    height: 80px;
-    background-color: var(--success-color);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    color: white;
-    font-size: 40px;
+    font-size: 60px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.success-content h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
 }
 
 .booking-details {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 15px;
     margin: 20px 0;
-    padding: 20px;
-    background-color: var(--light-color);
-    border-radius: var(--border-radius);
     text-align: left;
 }
 
+.booking-details p {
+    margin: 8px 0;
+}
+
 .success-message {
-    color: var(--gray-color);
+    color: #7f8c8d;
+    font-style: italic;
     margin-bottom: 20px;
 }
 
@@ -354,6 +350,7 @@
     display: flex;
     justify-content: center;
     gap: 15px;
+    margin-top: 20px;
 }
 
 #guest-spinner,
@@ -381,6 +378,17 @@
     to {
         transform: scale(1);
         opacity: 1;
+    }
+}
+
+@keyframes fade-in-scale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 

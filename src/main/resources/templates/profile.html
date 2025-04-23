@@ -97,47 +97,50 @@
                         </div>
                     </div>
                     <div class="profile-tabs">
-                        <a href="#info-tab" class="active">Thông tin</a>
+                        <a href="#account-tab" class="active">Thông tin</a>
                         <a href="#appointments-tab">Lịch hẹn</a>
                         <a href="#history-tab">Lịch sử</a>
                         <a href="#settings-tab">Cài đặt</a>
                     </div>
                 </div>
                 <div class="profile-main">
-                    <!-- Information Tab -->
-                    <div class="tab-content active" id="info-tab">
-                        <div class="section-title">
-                            <h3>Thông Tin Cá Nhân</h3>
+                    <!-- Account Info Tab -->
+                    <div class="tab-content active" id="account-tab">
+                        <div class="tab-heading">
+                            <h3>Thông Tin Tài Khoản</h3>
                             <p>Cập nhật thông tin cá nhân của bạn</p>
                         </div>
+                        
+                        <div class="alert alert-success d-none" id="update-success">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Cập nhật thông tin thành công!</span>
+                            <button type="button" class="close-alert">&times;</button>
+                        </div>
+                        
                         <form id="profile-form" class="profile-form">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="first-name">Tên</label>
-                                    <input type="text" id="first-name" name="first-name" required>
+                                    <input type="text" id="first-name" name="first-name" placeholder="Nguyễn">
                                 </div>
                                 <div class="form-group">
                                     <label for="last-name">Họ</label>
-                                    <input type="text" id="last-name" name="last-name" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="email">Địa Chỉ Email</label>
-                                    <input type="email" id="email" name="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Số Điện Thoại</label>
-                                    <input type="tel" id="phone" name="phone" required>
+                                    <input type="text" id="last-name" name="last-name" placeholder="Văn A">
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Số Điện Thoại</label>
+                                <input type="tel" id="phone" name="phone" placeholder="0123 456 789">
+                            </div>
+                            <div class="form-group">
                                 <label for="address">Địa Chỉ</label>
-                                <textarea id="address" name="address" rows="3"></textarea>
+                                <input type="text" id="address" name="address" placeholder="123 Đường ABC, Quận X, TP. Y">
                             </div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
-                            </div>
+                            <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
                         </form>
                     </div>
 
@@ -328,11 +331,16 @@
     </div>
 
     <!-- Scripts -->
-    <script th:src="@{/js/main.js}"></script>
-    <script th:src="@{/js/auth.js}"></script>
-    <script th:src="@{/js/search.js}"></script>
-    <script th:src="@{/js/profile-service.js}"></script>
-    <script th:src="@{/js/profile-handler.js}"></script>
+    <script th:src="@{/js/utils.js}"></script>
+    <script th:src="@{/js/api-service.js}"></script>
+    <script th:src="@{/js/animations.js}"></script>
+    <script th:src="@{/js/booking-service.js}"></script>
+    <script>
+        // Enable demo mode globally
+        window.DEMO_MODE = true;
+    </script>
+    <script src="/js/user-auth.js"></script>
+    <script src="/js/user-profile.js"></script>
 </body>
 
 </html>

@@ -36,15 +36,22 @@ public class SpringSecurity {
                 http.csrf().disable()
                                 .authorizeHttpRequests((authorize) -> authorize
                                                 // Allow all static resources
-                                                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                                                // Allow public pages
-                                                .requestMatchers("/", "/login", "/register", "/register/save", "/booking", "/profile").permitAll()
-                                                // Allow API endpoints for authentication, orders, and profile during development
-                                                .requestMatchers("/api/auth/**", "/api/orders/**", "/api/booking/**", "/api/profile/**").permitAll()
-                                                // Admin pages
-                                                .requestMatchers("/admin/**", "/admin-dashboard", "/dashboard").hasRole("ADMIN")
-                                                // Require authentication for other URLs
-                                                .anyRequest().authenticated())
+                                                .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/fonts/**").permitAll()
+                                                // Allow all HTML pages during development
+                                                .requestMatchers("/", "/index", "/login", "/register", "/register/save", 
+                                                                "/booking", "/profile", "/orders", "/feedbacks", 
+                                                                "/admin-dashboard", "/dashboard", "/contact", "/about", 
+                                                                "/services", "/service-details", "/admin/**", "/admin-login",
+                                                                "/feedback/**", "/user/**").permitAll()
+                                                // Allow all API endpoints during development
+                                                .requestMatchers("/api/**").permitAll()
+                                                // Specific API endpoints
+                                                .requestMatchers("/api/auth/**", "/api/orders/**", "/api/booking/**", 
+                                                                "/api/profile/**", "/api/users/**", "/api/feedbacks/**", 
+                                                                "/api/services/**").permitAll()
+                                                // Require authentication for other URLs in production
+                                                // For development, we'll allow all
+                                                .anyRequest().permitAll())
                                 .formLogin(
                                                 form -> form
                                                                 .loginPage("/login")

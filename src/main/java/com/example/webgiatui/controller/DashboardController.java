@@ -1,10 +1,10 @@
 package com.example.webgiatui.controller;
 
-import com.example.webgiatui.dto.OrderDto;
-import com.example.webgiatui.dto.UserDto;
-import com.example.webgiatui.entity.Order;
+import com.example.webgiatui.dto.BookingDto;
+import com.example.webgiatui.entity.Booking;
+import com.example.webgiatui.entity.Booking.BookingStatus;
 import com.example.webgiatui.entity.User;
-import com.example.webgiatui.service.OrderService;
+import com.example.webgiatui.service.BookingService;
 import com.example.webgiatui.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/dashboard")
 public class DashboardController {
 
-    private final OrderService orderService;
+    private final BookingService bookingService;
     private final UserService userService;
 
     @Autowired
-    public DashboardController(OrderService orderService, UserService userService) {
-        this.orderService = orderService;
+    public DashboardController(BookingService bookingService, UserService userService) {
+        this.bookingService = bookingService;
         this.userService = userService;
     }
 
@@ -46,28 +47,30 @@ public class DashboardController {
             return ResponseEntity.badRequest().build();
         }
 
-        // Get user's orders
-        List<Order> userOrders = orderService.findByCustomerId(currentUser.getId());
+        // Get user's bookings
+        List<Booking> userBookings = bookingService.findByUserId(currentUser.getId());
         
         // Convert to DTOs
-        List<OrderDto> orderDtos = userOrders.stream()
-                .map(orderService::convertToDto)
-                .toList();
+        List<BookingDto> bookingDtos = userBookings.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
 
-        // Count upcoming orders (those with status PENDING or WASHING)
-        long upcomingCount = userOrders.stream()
-                .filter(order -> order.getStatus() == Order.OrderStatus.PENDING || 
-                                order.getStatus() == Order.OrderStatus.WASHING)
+        // Count upcoming bookings (those with status PENDING or PROCESSING)
+        long upcomingCount = userBookings.stream()
+                .filter(booking -> booking.getStatus() == BookingStatus.PENDING || 
+                                booking.getStatus() == BookingStatus.PROCESSING)
                 .count();
 
-        // Count completed orders
-        long completedCount = userOrders.stream()
-                .filter(order -> order.getStatus() == Order.OrderStatus.COMPLETED)
+        // Count completed bookings
+        long completedCount = userBookings.stream()
+                .filter(booking -> booking.getStatus() == BookingStatus.COMPLETED)
                 .count();
 
-        // Calculate total spent (would come from an actual database calculation)
-        double totalSpent = 0.0;
-        // This is a placeholder - in a real app, you would calculate this from actual order values
+        // Calculate total spent
+        double totalSpent = userBookings.stream()
+                .filter(booking -> booking.getStatus() == BookingStatus.COMPLETED)
+                .mapToDouble(Booking::getTotalPrice)
+                .sum();
         
         // Prepare response
         Map<String, Object> response = new HashMap<>();
@@ -75,16 +78,16 @@ public class DashboardController {
         response.put("upcomingCount", upcomingCount);
         response.put("completedCount", completedCount);
         response.put("totalSpent", totalSpent);
-        response.put("orders", orderDtos);
+        response.put("bookings", bookingDtos);
 
         return ResponseEntity.ok(response);
     }
 
     /**
-     * Get user's upcoming orders
+     * Get user's upcoming bookings
      */
-    @GetMapping("/upcoming-orders")
-    public ResponseEntity<List<OrderDto>> getUpcomingOrders() {
+    @GetMapping("/upcoming-bookings")
+    public ResponseEntity<List<BookingDto>> getUpcomingBookings() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         User currentUser = userService.findByEmail(email);
@@ -93,23 +96,23 @@ public class DashboardController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Order> upcomingOrders = orderService.findByCustomerId(currentUser.getId()).stream()
-                .filter(order -> order.getStatus() == Order.OrderStatus.PENDING || 
-                               order.getStatus() == Order.OrderStatus.WASHING)
-                .toList();
+        List<Booking> upcomingBookings = bookingService.findByUserId(currentUser.getId()).stream()
+                .filter(booking -> booking.getStatus() == BookingStatus.PENDING || 
+                               booking.getStatus() == BookingStatus.PROCESSING)
+                .collect(Collectors.toList());
                 
-        List<OrderDto> orderDtos = upcomingOrders.stream()
-                .map(orderService::convertToDto)
-                .toList();
+        List<BookingDto> bookingDtos = upcomingBookings.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(orderDtos);
+        return ResponseEntity.ok(bookingDtos);
     }
 
     /**
-     * Get user's completed orders
+     * Get user's completed bookings
      */
-    @GetMapping("/completed-orders")
-    public ResponseEntity<List<OrderDto>> getCompletedOrders() {
+    @GetMapping("/completed-bookings")
+    public ResponseEntity<List<BookingDto>> getCompletedBookings() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         User currentUser = userService.findByEmail(email);
@@ -118,14 +121,35 @@ public class DashboardController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Order> completedOrders = orderService.findByCustomerId(currentUser.getId()).stream()
-                .filter(order -> order.getStatus() == Order.OrderStatus.COMPLETED)
-                .toList();
+        List<Booking> completedBookings = bookingService.findByUserId(currentUser.getId()).stream()
+                .filter(booking -> booking.getStatus() == BookingStatus.COMPLETED)
+                .collect(Collectors.toList());
                 
-        List<OrderDto> orderDtos = completedOrders.stream()
-                .map(orderService::convertToDto)
-                .toList();
+        List<BookingDto> bookingDtos = completedBookings.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(orderDtos);
+        return ResponseEntity.ok(bookingDtos);
+    }
+    
+    /**
+     * Convert Booking entity to BookingDto
+     */
+    private BookingDto convertToDto(Booking booking) {
+        return BookingDto.builder()
+                .id(booking.getId())
+                .bookingCode(booking.getBookingCode())
+                .userId(booking.getUser().getId())
+                .userName(booking.getUser().getName())
+                .serviceId(booking.getService().getId())
+                .serviceName(booking.getService().getName())
+                .weight(booking.getWeight())
+                .totalPrice(booking.getTotalPrice())
+                .status(booking.getStatus())
+                .paymentStatus(booking.getPaymentStatus())
+                .bookingDate(booking.getBookingDate())
+                .pickupDate(booking.getPickupDate())
+                .deliveryDate(booking.getDeliveryDate())
+                .build();
     }
 } 

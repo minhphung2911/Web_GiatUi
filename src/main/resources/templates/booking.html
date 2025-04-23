@@ -57,13 +57,13 @@
                 <!-- Booking Tabs -->
                 <div class="booking-tabs fade-in">
                     <div class="tab-buttons">
-                        <button class="tab-button active" data-tab="guest-booking" id="guest-tab">Đặt Lịch
+                        <button class="tab-button" data-tab="guest-booking" id="guest-tab">Đặt Lịch
                             Khách</button>
-                        <button class="tab-button" data-tab="user-booking" id="user-tab">Đặt Lịch Thành Viên</button>
+                        <button class="tab-button active" data-tab="user-booking" id="user-tab">Đặt Lịch Thành Viên</button>
                     </div>
 
                     <!-- Guest Booking Form -->
-                    <div class="tab-content active" id="guest-booking">
+                    <div class="tab-content" id="guest-booking">
                         <div class="alert-box info-alert" id="guest-info">
                             <i class="fas fa-info-circle"></i>
                             <span>Để có trải nghiệm tốt hơn trong việc theo dõi và quản lý đơn hàng, hãy xem xét <a
@@ -184,13 +184,13 @@
                     </div>
 
                     <!-- User Booking Form -->
-                    <div class="tab-content" id="user-booking">
-                        <div class="alert-box warning-alert" id="login-required">
+                    <div class="tab-content active" id="user-booking">
+                        <div class="alert-box warning-alert" id="login-required" style="display: none;">
                             <i class="fas fa-exclamation-triangle"></i>
                             <span>Vui lòng <a th:href="@{/login}">đăng nhập</a> để truy cập thông tin tài khoản của
                                 bạn.</span>
                         </div>
-                        <form id="user-booking-form" class="hidden">
+                        <form id="user-booking-form">
                             <div class="booking-section-title">
                                 <i class="fas fa-calendar-alt"></i>
                                 <h3>Chi Tiết Lịch Hẹn</h3>
@@ -412,12 +412,11 @@
     </div>
 
     <!-- JavaScript -->
-    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/api-service.js}"></script>
     <script th:src="@{/js/animations.js}"></script>
-    <script th:src="@{/js/auth.js}"></script>
-    <script th:src="@{/js/booking-api.js}"></script>
-    <script th:src="@{/js/booking-service.js}"></script>
-    <script th:src="@{/js/booking.js}"></script>
+    <script th:src="@{/js/toast.js}"></script>
+    <script th:src="@{/js/user-auth.js}"></script>
+    <script th:src="@{/js/user-booking.js}"></script>
 </body>
 
 </html>

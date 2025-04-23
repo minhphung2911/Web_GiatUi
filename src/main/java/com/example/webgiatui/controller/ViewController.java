@@ -2,36 +2,61 @@ package com.example.webgiatui.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class ViewController {
 
-    // Removing the index method since it conflicts with AuthController's home() method
-    // @GetMapping("/")
-    // public String index() {
-    //     return "index";
-    // }
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+    
+    @GetMapping("/index")
+    public String indexAlternative() {
+        return "index";
+    }
 
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
     }
 
-    @GetMapping("/profile")
-    public String profile() {
-        return "profile";
+    @GetMapping("/feedbacks")
+    public String feedbacks() {
+        return "feedbacks";
     }
-
-    @GetMapping("/booking")
-    public String booking() {
-        return "booking";
+    
+    @GetMapping("/feedback/create")
+    public String createFeedback() {
+        return "create-feedback";
     }
-
-    @GetMapping("/orders")
-    public String orders() {
-        return "orders";
+    
+    @GetMapping("/feedback/{id}")
+    public String viewFeedback(@PathVariable Long id) {
+        return "view-feedback";
     }
-
+    
+    @GetMapping("/services")
+    public String services() {
+        return "services";
+    }
+    
+    @GetMapping("/service-details")
+    public String serviceDetails() {
+        return "service-details";
+    }
+    
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact";
+    }
+    
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
+    
     @GetMapping("/admin-dashboard")
     public String adminDashboard() {
         return "admin-dashboard";
@@ -40,5 +65,25 @@ public class ViewController {
     @GetMapping("/admin-login")
     public String adminLogin() {
         return "admin-login";
+    }
+    
+    @GetMapping("/admin/users")
+    public String adminUsers() {
+        return "admin-users";
+    }
+    
+    @GetMapping("/admin/bookings")
+    public String adminBookings() {
+        return "admin-bookings";
+    }
+    
+    @GetMapping("/admin/feedbacks")
+    public String adminFeedbacks() {
+        return "admin-feedbacks";
+    }
+    
+    @GetMapping("/admin/services")
+    public String adminServices() {
+        return "admin-services";
     }
 } 

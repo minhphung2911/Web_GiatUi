@@ -87,12 +87,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public User create(User entity) {
+    public User save(User entity) {
         // Ensure password is encoded
         if (entity.getPassword() != null && !entity.getPassword().startsWith("$2a$")) {
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
@@ -111,41 +111,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-    }
-
-    @Override
-    public User update(Long id, User entity) {
-        User existingUser = getById(id);
-        
-        // Update fields that are provided
-        if (entity.getName() != null) {
-            existingUser.setName(entity.getName());
-        }
-        
-        if (entity.getEmail() != null) {
-            existingUser.setEmail(entity.getEmail());
-        }
-        
-        if (entity.getPassword() != null && !entity.getPassword().startsWith("$2a$")) {
-            existingUser.setPassword(passwordEncoder.encode(entity.getPassword()));
-        }
-        
-        if (entity.getPhoneNumber() != null) {
-            existingUser.setPhoneNumber(entity.getPhoneNumber());
-        }
-        
-        if (entity.getAddress() != null) {
-            existingUser.setAddress(entity.getAddress());
-        }
-        
-        if (entity.getRoles() != null && !entity.getRoles().isEmpty()) {
-            existingUser.setRoles(entity.getRoles());
-        }
-        
-        return userRepository.save(existingUser);
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override

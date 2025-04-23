@@ -1,102 +1,118 @@
-// Admin Login JavaScript
-document.addEventListener("DOMContentLoaded", () => {
-  initAdminLogin()
-})
+/**
+ * Admin Login JavaScript
+ * This file handles the admin login functionality
+ */
 
-function initAdminLogin() {
-  const adminLoginForm = document.getElementById("admin-login-form")
-  const adminLoginError = document.getElementById("admin-login-error")
-  const adminSpinner = document.getElementById("admin-spinner")
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('admin-login-form');
+    
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleAdminLogin);
+    }
+    
+    // Kiểm tra đã đăng nhập chưa
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (currentUser && currentUser.roles && 
+        currentUser.roles.some(role => role.name === 'ROLE_ADMIN')) {
+        // Redirect to dashboard if already logged in as admin
+        window.location.href = '/admin-dashboard';
+    }
+});
 
-  if (adminLoginForm) {
-    adminLoginForm.addEventListener("submit", (e) => {
-      e.preventDefault()
-
-      // Get form data
-      const username = document.getElementById("admin-username").value
-      const password = document.getElementById("admin-password").value
-      const remember = document.getElementById("admin-remember").checked
-
-      // Validate form data
-      if (!username || !password) {
-        showError("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.")
-        return
-      }
-
-      // Show spinner
-      const submitBtn = adminLoginForm.querySelector('button[type="submit"]')
-      submitBtn.disabled = true
-      submitBtn.querySelector("span").style.opacity = "0"
-      adminSpinner.style.display = "block"
-
-      // Simulate API call
-      setTimeout(() => {
-        // Check credentials
-        if (loginAdmin(username, password, remember)) {
-          // Redirect to admin dashboard
-          window.location.href = "admin-dashboard.html"
-        } else {
-          // Show error
-          showError("Tên đăng nhập hoặc mật khẩu không đúng.")
-
-          // Hide spinner
-          submitBtn.disabled = false
-          submitBtn.querySelector("span").style.opacity = "1"
-          adminSpinner.style.display = "none"
-        }
-      }, 1500)
+/**
+ * Handle admin login form submission
+ * @param {Event} event - The form submit event
+ */
+function handleAdminLogin(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const email = document.getElementById('admin-email').value;
+    const password = document.getElementById('admin-password').value;
+    
+    // Validate form data
+    if (!email || !password) {
+        showLoginError('Vui lòng nhập đầy đủ thông tin đăng nhập');
+        return;
+    }
+    
+    // Clear previous error message
+    hideLoginError();
+    
+    // Show loading indicator
+    const submitButton = document.querySelector('#admin-login-form button[type="submit"]');
+    const originalButtonText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+    
+    // Gọi API đăng nhập thật
+    fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
     })
-
-    // Toggle password visibility
-    const togglePassword = document.querySelector(".toggle-password")
-
-    if (togglePassword) {
-      togglePassword.addEventListener("click", function () {
-        const passwordInput = document.getElementById("admin-password")
-        const icon = this.querySelector("i")
-
-        if (passwordInput.type === "password") {
-          passwordInput.type = "text"
-          icon.classList.remove("fa-eye")
-          icon.classList.add("fa-eye-slash")
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Kiểm tra role
+            const user = data.user;
+            const roles = user.roles || [];
+            
+            if (roles.some(role => role.name === 'ROLE_ADMIN')) {
+                // Lưu thông tin người dùng
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                
+                // Chuyển hướng đến dashboard
+                window.location.href = '/admin-dashboard';
+            } else {
+                showLoginError('Tài khoản không có quyền admin');
+            }
         } else {
-          passwordInput.type = "password"
-          icon.classList.remove("fa-eye-slash")
-          icon.classList.add("fa-eye")
+            showLoginError(data.message || 'Đăng nhập thất bại');
         }
-      })
-    }
-  }
-
-  function showError(message) {
-    adminLoginError.textContent = message
-    adminLoginError.style.display = "block"
-  }
-
-  function loginAdmin(username, password, remember = false) {
-    // In a real app, this would validate against a server
-    // For demo purposes, we'll use a hardcoded admin account
-    if (username === "admin" && password === "admin123") {
-      const admin = {
-        id: "admin_1",
-        username: "admin",
-        name: "Quản Trị Viên",
-        role: "Quản Trị Viên",
-        avatar: "img/default-avatar.png",
-      }
-
-      // Save admin to localStorage
-      localStorage.setItem("currentAdmin", JSON.stringify(admin))
-
-      // If remember me is checked, set a longer expiration
-      if (remember) {
-        localStorage.setItem("adminRememberMe", "true")
-      }
-
-      return true
-    }
-
-    return false
-  }
+    })
+    .catch(error => {
+        console.error('Login error:', error);
+        showLoginError('Lỗi kết nối máy chủ');
+    })
+    .finally(() => {
+        // Reset button state
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+    });
 }
 
+/**
+ * Show login error message
+ * @param {string} message - The error message
+ */
+function showLoginError(message) {
+    const errorElement = document.getElementById('login-error');
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        
+        // Add error class to the form
+        const form = document.getElementById('admin-login-form');
+        if (form) {
+            form.classList.add('form-error');
+        }
+    }
+}
+
+/**
+ * Hide login error message
+ */
+function hideLoginError() {
+    const errorElement = document.getElementById('login-error');
+    if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+        
+        // Remove error class from the form
+        const form = document.getElementById('admin-login-form');
+        if (form) {
+            form.classList.remove('form-error');
+        }
+    }
+} 

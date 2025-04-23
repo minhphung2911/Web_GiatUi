@@ -1,38 +1,70 @@
 package com.example.webgiatui.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.example.webgiatui.entity.Booking.BookingStatus;
+import com.example.webgiatui.entity.Booking.PaymentStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import java.time.LocalDateTime;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingDto {
-
-    // Common fields for both guest and user bookings
+    
+    private Long id;
+    
+    private String bookingCode;
+    
+    @NotNull(message = "User ID is required")
+    private Long userId;
+    
+    private String userName;
+    
+    private String userEmail;
+    
+    private String userPhone;
+    
     @NotNull(message = "Service ID is required")
     private Long serviceId;
     
-    @NotNull(message = "Date is required")
-    private LocalDate date;
+    private String serviceName;
     
-    @NotBlank(message = "Time is required")
-    private String time;
+    @NotNull(message = "Weight is required")
+    @Positive(message = "Weight must be positive")
+    private Double weight;
+    
+    @NotNull(message = "Total price is required")
+    @Positive(message = "Total price must be positive") 
+    private Double totalPrice;
+    
+    @NotNull(message = "Pickup date is required")
+    private LocalDateTime pickupDate;
+    
+    @NotNull(message = "Delivery date is required")
+    private LocalDateTime deliveryDate;
+    
+    private String address;
     
     private String notes;
     
-    // Fields specifically for guest bookings
-    private String name;
+    private BookingStatus status;
     
-    @Email(message = "Email must be valid")
-    private String email;
+    private String paymentMethod;
     
-    private String phone;
+    private PaymentStatus paymentStatus;
     
-    private String address;
+    private LocalDateTime bookingDate;
+    
+    private LocalDateTime completionDate;
+    
+    private LocalDateTime createdAt;
+    
+    private LocalDateTime updatedAt;
 } 

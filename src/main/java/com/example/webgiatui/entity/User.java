@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +38,32 @@ public class User extends BaseEntity<Long> {
                     @JoinColumn(name = "role_id", referencedColumnName = "id") })
     private List<Role> roles = new ArrayList<>();
     
-    // Orders placed by this user
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
+    // Bookings made by this user
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings = new ArrayList<>();
+    
+    // Feedbacks given by this user
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Feedback> feedbacks = new ArrayList<>();
+    
+    @Column(nullable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+    
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
     
     /**
      * Helper method to get first name

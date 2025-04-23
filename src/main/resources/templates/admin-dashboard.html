@@ -6,7 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bảng Điều Khiển Quản Trị - Fresh Laundry</title>
     <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-components.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for dropdown */
+        .user-profile {
+            position: relative;
+        }
+        
+        .user-profile .dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            min-width: 200px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .user-profile:hover .dropdown {
+            display: block;
+        }
+        
+        .user-profile .dropdown a {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #333;
+            transition: background 0.3s;
+        }
+        
+        .user-profile .dropdown a:hover {
+            background: #f5f5f5;
+        }
+        
+        .user-profile .dropdown a i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,7 +65,7 @@
 
             <div class="admin-profile">
                 <div class="admin-avatar">
-                    <img id="admin-avatar" src="img/default-avatar.png" alt="Ảnh Quản Trị Viên">
+                    <img id="admin-avatar" src="/img/default-avatar.svg" alt="Ảnh Quản Trị Viên">
                 </div>
                 <div class="admin-info">
                     <h4 id="admin-name">Quản Trị Viên</h4>
@@ -152,11 +193,12 @@
 
                     <div class="user-profile">
                         <button class="profile-btn">
-                            <img src="img/default-avatar.png" alt="Ảnh Quản Trị Viên">
-                            <span>Admin</span>
+                            <img id="header-admin-avatar" src="/img/default-avatar.svg" alt="Ảnh Quản Trị Viên">
+                            <span id="header-admin-name">Admin</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div class="dropdown">
+                            <a th:href="@{/}"><i class="fas fa-home"></i> Trang chủ</a>
                             <a href="#"><i class="fas fa-user"></i> Hồ sơ của tôi</a>
                             <a href="#"><i class="fas fa-cog"></i> Cài đặt</a>
                             <a href="#" id="profile-logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
@@ -177,13 +219,13 @@
                                 </div>
                                 <div class="stat-details">
                                     <h3>Tổng Đặt Lịch</h3>
-                                    <h2>254</h2>
+                                    <h2 id="total-bookings">0</h2>
                                     <p><span class="text-success"><i class="fas fa-arrow-up"></i> 12.5%</span> so với
                                         tháng trước</p>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                                <a href="#" data-section="bookings" class="nav-link">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
 
@@ -194,13 +236,13 @@
                                 </div>
                                 <div class="stat-details">
                                     <h3>Tổng Khách Hàng</h3>
-                                    <h2>1,254</h2>
+                                    <h2 id="total-customers">0</h2>
                                     <p><span class="text-success"><i class="fas fa-arrow-up"></i> 8.3%</span> so với
                                         tháng trước</p>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                                <a href="#" data-section="customers" class="nav-link">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
 
@@ -211,30 +253,30 @@
                                 </div>
                                 <div class="stat-details">
                                     <h3>Tổng Doanh Thu</h3>
-                                    <h2>15,245,000đ</h2>
+                                    <h2 id="total-revenue">0đ</h2>
                                     <p><span class="text-success"><i class="fas fa-arrow-up"></i> 5.7%</span> so với
                                         tháng trước</p>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                                <a href="#" data-section="reports" class="nav-link">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
 
                         <div class="card stat-card">
                             <div class="card-body">
                                 <div class="stat-icon">
-                                    <i class="fas fa-clock"></i>
+                                    <i class="fas fa-check-circle"></i>
                                 </div>
                                 <div class="stat-details">
-                                    <h3>Đơn Hàng Đang Chờ</h3>
-                                    <h2>42</h2>
-                                    <p><span class="text-danger"><i class="fas fa-arrow-down"></i> 3.2%</span> so với
+                                    <h3>Đơn Hoàn Thành</h3>
+                                    <h2 id="completed-bookings">0</h2>
+                                    <p><span class="text-success"><i class="fas fa-arrow-up"></i> 3.2%</span> so với
                                         tháng trước</p>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                                <a href="#" data-section="bookings" class="nav-link">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -250,125 +292,24 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-hover" id="recent-bookings-table">
                                             <thead>
                                                 <tr>
-                                                    <th>Mã</th>
+                                                    <th>Mã Đặt Lịch</th>
                                                     <th>Khách Hàng</th>
                                                     <th>Dịch Vụ</th>
-                                                    <th>Ngày</th>
+                                                    <th>Giá Trị</th>
                                                     <th>Trạng Thái</th>
+                                                    <th>Ngày Đặt</th>
                                                     <th>Thao Tác</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>#BK-1234</td>
-                                                    <td>
-                                                        <div class="user-info">
-                                                            <img src="img/default-avatar.png" alt="Người dùng">
-                                                            <span>Nguyễn Văn A</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>Giặt & Gấp</td>
-                                                    <td>15/03/2023</td>
-                                                    <td><span class="badge pending">Đang chờ</span></td>
-                                                    <td>
-                                                        <div class="table-actions">
-                                                            <button class="btn-icon" title="Xem"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn-icon" title="Sửa"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button class="btn-icon" title="Xóa"><i
-                                                                    class="fas fa-trash"></i></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#BK-1233</td>
-                                                    <td>
-                                                        <div class="user-info">
-                                                            <img src="img/default-avatar.png" alt="Người dùng">
-                                                            <span>Trần Thị B</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>Giặt Khô</td>
-                                                    <td>14/03/2023</td>
-                                                    <td><span class="badge completed">Hoàn thành</span></td>
-                                                    <td>
-                                                        <div class="table-actions">
-                                                            <button class="btn-icon" title="Xem"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn-icon" title="Sửa"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button class="btn-icon" title="Xóa"><i
-                                                                    class="fas fa-trash"></i></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#BK-1232</td>
-                                                    <td>
-                                                        <div class="user-info">
-                                                            <img src="img/default-avatar.png" alt="Người dùng">
-                                                            <span>Lê Văn C</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>Ủi Đồ</td>
-                                                    <td>14/03/2023</td>
-                                                    <td><span class="badge processing">Đang xử lý</span></td>
-                                                    <td>
-                                                        <div class="table-actions">
-                                                            <button class="btn-icon" title="Xem"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn-icon" title="Sửa"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button class="btn-icon" title="Xóa"><i
-                                                                    class="fas fa-trash"></i></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#BK-1231</td>
-                                                    <td>
-                                                        <div class="user-info">
-                                                            <img src="img/default-avatar.png" alt="Người dùng">
-                                                            <span>Phạm Thị D</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>Gói Cao Cấp</td>
-                                                    <td>13/03/2023</td>
-                                                    <td><span class="badge completed">Hoàn thành</span></td>
-                                                    <td>
-                                                        <div class="table-actions">
-                                                            <button class="btn-icon" title="Xem"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn-icon" title="Sửa"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button class="btn-icon" title="Xóa"><i
-                                                                    class="fas fa-trash"></i></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#BK-1230</td>
-                                                    <td>
-                                                        <div class="user-info">
-                                                            <img src="img/default-avatar.png" alt="Người dùng">
-                                                            <span>Hoàng Văn E</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>Giặt & Gấp</td>
-                                                    <td>12/03/2023</td>
-                                                    <td><span class="badge cancelled">Đã hủy</span></td>
-                                                    <td>
-                                                        <div class="table-actions">
-                                                            <button class="btn-icon" title="Xem"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn-icon" title="Sửa"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button class="btn-icon" title="Xóa"><i
-                                                                    class="fas fa-trash"></i></button>
+                                                <!-- Booking rows will be generated dynamically with JavaScript -->
+                                                <tr class="loading-row">
+                                                    <td colspan="7" class="text-center">
+                                                        <div class="loading-spinner">
+                                                            <i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -415,42 +356,13 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="service-stats">
-                                        <div class="service-item">
-                                            <div class="service-info">
-                                                <h4>Giặt & Gấp</h4>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 75%;"></div>
-                                                </div>
-                                            </div>
-                                            <div class="service-value">75%</div>
-                                        </div>
-                                        <div class="service-item">
-                                            <div class="service-info">
-                                                <h4>Giặt Khô</h4>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 60%;"></div>
-                                                </div>
-                                            </div>
-                                            <div class="service-value">60%</div>
-                                        </div>
-                                        <div class="service-item">
-                                            <div class="service-info">
-                                                <h4>Ủi Đồ</h4>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 45%;"></div>
-                                                </div>
-                                            </div>
-                                            <div class="service-value">45%</div>
-                                        </div>
-                                        <div class="service-item">
-                                            <div class="service-info">
-                                                <h4>Gói Cao Cấp</h4>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 30%;"></div>
-                                                </div>
-                                            </div>
-                                            <div class="service-value">30%</div>
+                                    <div class="chart-container">
+                                        <canvas id="serviceChart"></canvas>
+                                    </div>
+                                    <div class="chart-legend" id="service-chart-legend">
+                                        <!-- Service legend items will be generated dynamically with JavaScript -->
+                                        <div class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...
                                         </div>
                                     </div>
                                 </div>
@@ -485,80 +397,194 @@
                 <!-- Bookings Section -->
                 <section id="bookings-section" class="section">
                     <div class="section-header">
-                        <h2>Quản Lý Đặt Lịch</h2>
+                        <div class="section-title">
+                            <h2>Quản Lý Đặt Lịch</h2>
+                            <p>Quản lý các đơn đặt lịch của khách hàng</p>
+                        </div>
                         <div class="section-actions">
-                            <button class="btn btn-primary"><i class="fas fa-plus"></i> Thêm Đặt Lịch Mới</button>
+                            <button id="add-booking-btn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Thêm Đặt Lịch
+                            </button>
                         </div>
                     </div>
 
                     <div class="card">
-                        <div class="card-body">
-                            <div class="filters">
-                                <div class="filter-group">
-                                    <input type="text" placeholder="Tìm kiếm đặt lịch...">
-                                    <button><i class="fas fa-search"></i></button>
-                                </div>
-                                <div class="filter-group">
-                                    <select>
-                                        <option value="">Tất Cả Trạng Thái</option>
-                                        <option value="pending">Đang Chờ</option>
-                                        <option value="processing">Đang Xử Lý</option>
-                                        <option value="completed">Hoàn Thành</option>
-                                        <option value="cancelled">Đã Hủy</option>
-                                    </select>
-                                </div>
-                                <div class="filter-group">
-                                    <input type="date" placeholder="Từ Ngày">
-                                </div>
-                                <div class="filter-group">
-                                    <input type="date" placeholder="Đến Ngày">
-                                </div>
-                                <button class="btn btn-outline">Lọc</button>
-                                <button class="btn btn-text">Đặt Lại</button>
+                        <div class="card-header">
+                            <div class="booking-filter">
+                                <button class="btn btn-sm btn-filter filter-status active" data-status="all">Tất Cả</button>
+                                <button class="btn btn-sm btn-filter filter-status" data-status="PENDING">Đang Chờ</button>
+                                <button class="btn btn-sm btn-filter filter-status" data-status="PROCESSING">Đang Xử Lý</button>
+                                <button class="btn btn-sm btn-filter filter-status" data-status="COMPLETED">Hoàn Thành</button>
+                                <button class="btn btn-sm btn-filter filter-status" data-status="CANCELLED">Đã Hủy</button>
                             </div>
-
+                            <div class="search-box">
+                                <input type="text" id="booking-search" placeholder="Tìm kiếm đặt lịch...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="admin-table">
                                     <thead>
                                         <tr>
-                                            <th><input type="checkbox"></th>
-                                            <th>Mã</th>
-                                            <th>Khách Hàng</th>
-                                            <th>Dịch Vụ</th>
-                                            <th>Ngày</th>
-                                            <th>Giờ</th>
-                                            <th>Trạng Thái</th>
-                                            <th>Số Tiền</th>
-                                            <th>Thao Tác</th>
+                                            <th>Mã đơn</th>
+                                            <th>Khách hàng</th>
+                                            <th>Dịch vụ</th>
+                                            <th>Ngày lấy</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody id="bookings-table-body">
-                                        <!-- Booking rows will be loaded here -->
+                                        <tr>
+                                            <td colspan="7" class="text-center">Đang tải dữ liệu...</td>
+                                        </tr>
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <div class="pagination">
-                                <button class="btn-icon" disabled><i class="fas fa-chevron-left"></i></button>
-                                <button class="page-number active">1</button>
-                                <button class="page-number">2</button>
-                                <button class="page-number">3</button>
-                                <span>...</span>
-                                <button class="page-number">10</button>
-                                <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Other sections will be added here -->
+                <!-- Customers Section -->
+                <section id="customers-section" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <h2>Quản Lý Khách Hàng</h2>
+                            <p>Quản lý thông tin khách hàng</p>
+                        </div>
+                        <div class="section-actions">
+                            <button id="add-customer-btn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Thêm Khách Hàng
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="search-box">
+                                <input type="text" id="customer-search" placeholder="Tìm kiếm khách hàng...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên</th>
+                                            <th>Email</th>
+                                            <th>Điện thoại</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="customers-table-body">
+                                        <tr>
+                                            <td colspan="6" class="text-center">Đang tải dữ liệu...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Services Section -->
+                <section id="services-section" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <h2>Quản Lý Dịch Vụ</h2>
+                            <p>Quản lý các dịch vụ giặt ủi</p>
+                        </div>
+                        <div class="section-actions">
+                            <button id="add-service-btn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Thêm Dịch Vụ
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="search-box">
+                                <input type="text" id="service-search" placeholder="Tìm kiếm dịch vụ...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên dịch vụ</th>
+                                            <th>Mô tả</th>
+                                            <th>Giá</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="services-table-body">
+                                        <tr>
+                                            <td colspan="6" class="text-center">Đang tải dữ liệu...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
 
+    <!-- Include modals from fragments -->
+    <div th:replace="fragments/admin-modals :: service-modals"></div>
+    <div th:replace="fragments/admin-modals :: customer-modals"></div>
+    <div th:replace="fragments/admin-modals :: booking-modals"></div>
+
+    <!-- Toast notification -->
+    <div id="toast-container"></div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/api-service.js}"></script>
     <script th:src="@{/js/admin-dashboard.js}"></script>
+    <script th:src="@{/js/admin-services.js}"></script>
+    <script th:src="@{/js/admin-customers.js}"></script>
+    <script th:src="@{/js/admin-bookings.js}"></script>
+    <script>
+        // Add common toast notification function
+        window.showToast = function(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+            
+            const toastContainer = document.getElementById('toast-container');
+            toastContainer.appendChild(toast);
+            
+            // Add close event
+            toast.querySelector('.toast-close').addEventListener('click', function() {
+                toast.remove();
+            });
+            
+            // Auto remove after 3 seconds
+            setTimeout(function() {
+                toast.classList.add('fade-out');
+                setTimeout(function() {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        };
+    </script>
 </body>
 
 </html>
